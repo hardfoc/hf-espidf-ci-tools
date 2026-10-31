@@ -38,14 +38,14 @@ on:
 jobs:
   # Build first (required for artifacts)
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
 
   # Release with artifacts
   release:
     needs: [build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "esp32-examples-build-ci.yml"
       artifact_pattern: "fw-.*"
@@ -64,13 +64,13 @@ on:
 
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
 
   release:
     needs: [build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "esp32-examples-build-ci.yml"
       artifact_pattern: "fw-.*"
@@ -115,7 +115,7 @@ The release workflow depends on a successful ESP32 build that produces firmware 
 # Required: ESP32 build workflow that generates fw-* artifacts
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       # This creates artifacts like: fw-esp32c6-hf-interface-simple
@@ -165,13 +165,13 @@ on:
 
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
 
   release:
     needs: [build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "esp32-examples-build-ci.yml"
     permissions:
@@ -183,13 +183,13 @@ jobs:
 ```yaml
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
 
   release:
     needs: [build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "esp32-examples-build-ci.yml"
       artifact_pattern: "fw-(basic|advanced)-.*"  # Multiple variants
@@ -202,7 +202,7 @@ jobs:
 ```yaml
 jobs:
   release:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       prerelease: true
       draft: ${{ github.event_name == 'workflow_dispatch' }}
@@ -217,11 +217,11 @@ jobs:
 jobs:
   custom-build:
     name: "custom-esp32-ci.yml"  # Your custom workflow name
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
 
   release:
     needs: [custom-build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "custom-esp32-ci.yml"  # Match your workflow file
       artifact_pattern: "custom-fw-.*"       # Match your artifact names
@@ -266,20 +266,20 @@ on:
 
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       project_tools_dir: hf-espidf-project-tools
 
   test:
     needs: [build]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ci-security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ci-security.yml@v1
     with:
       project_dir: examples/esp32
 
   release:
     needs: [build, test]
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       build_workflow: "esp32-examples-build-ci.yml"
       artifact_pattern: "fw-esp32c6-.*"
@@ -298,7 +298,7 @@ jobs:
 # Use environment-based patterns
 jobs:
   release:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
     with:
       artifact_pattern: ${{ github.ref_name == 'v*-beta*' && 'fw-beta-.*' || 'fw-.*' }}
 ```
@@ -309,7 +309,7 @@ jobs:
 jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'dev')
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
 ```
 
 ---

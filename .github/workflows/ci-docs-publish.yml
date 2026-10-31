@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   publish-docs:
-    uses: N3b3x/hf-general-ci-tools/.github/workflows/ru-docs-publish.yml@main
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-docs-publish.yml@main
     with:
       checkout_recursive: false
       # Jekyll configuration for this repo's docs

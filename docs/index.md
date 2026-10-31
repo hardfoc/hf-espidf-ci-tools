@@ -53,7 +53,7 @@ your-esp32-project/
 ### 1. Clone the Tools Repository
 
 ```bash
-git clone https://github.com/N3b3x/hf-espidf-project-tools.git
+git clone https://github.com/hardfoc/hf-espidf-project-tools.git
 ```
 
 ### 2. Create Your First CI Workflow
@@ -67,7 +67,7 @@ on:
 
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       project_tools_dir: hf-espidf-project-tools
@@ -75,7 +75,7 @@ jobs:
       clean_build: false
 
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       project_tools_dir: hf-espidf-project-tools
@@ -139,8 +139,8 @@ jobs:
 
 ## 🔗 Related Resources
 
-- [Main Repository](https://github.com/N3b3x/hf-espidf-ci-tools)
-- [Project Tools Repository](https://github.com/N3b3x/hf-espidf-project-tools)
+- [Main Repository](https://github.com/hardfoc/hf-espidf-ci-tools)
+- [Project Tools Repository](https://github.com/hardfoc/hf-espidf-project-tools)
 - [ESP-IDF Documentation](https://docs.espressif.com/projects/esp-idf/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 

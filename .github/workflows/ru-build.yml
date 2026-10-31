@@ -51,7 +51,7 @@ jobs:
 
       - name: Ensure tools directory present
         id: validate
-        uses: N3b3x/hf-espidf-ci-tools/.github/actions/ensure-tools-directory@main
+        uses: hardfoc/hf-espidf-ci-tools/.github/actions/ensure-tools-directory@main
         with:
           project_tools_dir: ${{ env.PROJECT_TOOLS_DIR }}
           project_dir: ${{ env.ESP32_PROJECT_PATH }}

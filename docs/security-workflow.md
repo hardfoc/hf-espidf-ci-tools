@@ -45,7 +45,7 @@ detection, and optional CodeQL analysis.
 
 ### Repository Security
 
-- **Trusted Source Only**: Tools are only cloned from the trusted N3b3x/hf-espidf-project-tools repository
+- **Trusted Source Only**: Tools are only cloned from the trusted hardfoc/hf-espidf-project-tools repository
 - **No External URLs**: Users cannot specify arbitrary repository URLs, preventing supply chain attacks
 - **Main Branch Only**: Always uses the main branch for consistency and stability
 - **Shallow Cloning**: Uses `--depth 1` to minimize attack surface and reduce clone time
@@ -89,7 +89,7 @@ detection, and optional CodeQL analysis.
 ```yaml
 jobs:
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scripts_dir: nt-espidf-tools
@@ -103,7 +103,7 @@ jobs:
 ```yaml
 jobs:
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scripts_dir: nt-espidf-tools
@@ -116,7 +116,7 @@ jobs:
 ```yaml
 jobs:
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scripts_dir: nt-espidf-tools
@@ -161,14 +161,14 @@ The workflow automatically generates the same build matrix as your build workflo
 # In your CI workflow, ensure consistency:
 jobs:
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       scripts_dir: nt-espidf-tools
       # ... other inputs
 
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scripts_dir: nt-espidf-tools

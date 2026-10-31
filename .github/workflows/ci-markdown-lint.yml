@@ -11,7 +11,7 @@ on:
 jobs:
   markdownlint:
     name: Markdown Lint
-    uses: N3b3x/hf-general-ci-tools/.github/workflows/ru-markdown-lint.yml@main
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-markdown-lint.yml@main
     with:
       # =============================================================================
       # File Selection
