@@ -59,13 +59,13 @@ on:
 jobs:
   # Build firmware across multiple configurations
   build:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
 
   # Security audit
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scan_type: "all"
@@ -130,7 +130,7 @@ jobs:
   # 🏗️ Build firmware (parallel matrix)
   build:
     needs: validate
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       project_tools_dir: ${{ env.TOOLS_DIR }}
@@ -139,7 +139,7 @@ jobs:
   # 🛡️ Security audit
   security:
     if: ${{ github.event.inputs.run_security != 'false' }}
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       project_tools_dir: ${{ env.TOOLS_DIR }}
@@ -181,14 +181,14 @@ on:
 jobs:
   # Quick build for development
   build-dev:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       clean_build: false  # Use caches for faster builds
 
   # Security audit
   security:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scan_type: "dependencies"  # Quick dependency scan for dev
@@ -222,14 +222,14 @@ env:
 jobs:
   # Comprehensive build for release
   build-release:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       clean_build: true  # Clean build for release
 
   # Full security audit
   security-release:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       scan_type: "all"
@@ -305,7 +305,7 @@ on:
 jobs:
   # Security audit (runs first)
   security-audit:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scan_type: "all"
@@ -315,7 +315,7 @@ jobs:
   # Build only if security passes
   build-secure:
     needs: security-audit
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: examples/esp32
       clean_build: true
@@ -366,14 +366,14 @@ env:
 jobs:
   # Optimized build with aggressive caching
   build-fast:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       clean_build: false  # Always use caches
 
   # Quick security scan
   security-quick:
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: ${{ env.PROJECT_DIR }}
       scan_type: "dependencies"  # Only dependency scan for speed
@@ -423,7 +423,7 @@ env:
 jobs:
   security:
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1
+    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
     with:
       project_dir: examples/esp32
       scan_type: "all"

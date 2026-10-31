@@ -1,3 +1,3 @@
 [submodule "hf-espidf-project-tools"]
 	path = hf-espidf-project-tools
-	url = https://github.com/N3b3x/hf-espidf-project-tools.git
+	url = https://github.com/hardfoc/hf-espidf-project-tools.git

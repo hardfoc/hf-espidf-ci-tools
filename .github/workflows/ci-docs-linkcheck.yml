@@ -11,7 +11,7 @@ on:
 jobs:
   linkcheck:
     name: Documentation Link Check
-    uses: N3b3x/hf-general-ci-tools/.github/workflows/ru-docs-linkcheck.yml@main
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-docs-linkcheck.yml@main
     with:
       checkout_recursive: true
       paths: "docs/**/*.md *.md"

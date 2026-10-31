@@ -29,7 +29,7 @@ runs:
         set -e
 
         # Use hardcoded trusted repository URL and main branch
-        TOOLS_REPO_URL="https://github.com/N3b3x/hf-espidf-project-tools.git"
+        TOOLS_REPO_URL="https://github.com/hardfoc/hf-espidf-project-tools.git"
         TOOLS_BRANCH="main"
         TOOLS_DIR_NAME=$(basename "${TOOLS_REPO_URL}" .git)
         echo "Tools directory name: ${TOOLS_DIR_NAME}"

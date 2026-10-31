@@ -180,7 +180,7 @@ seo:
   description: >
     CI/CD Tools for HardFOC ESP32 Projects - GitHub Actions workflows for ESP-IDF
     development with matrix builds, security auditing, and automated documentation
-  url: "https://n3b3x.github.io/hf-espidf-ci-tools"
+  url: "https://hardfoc.github.io/hf-espidf-ci-tools"
   twitter:
     card: "summary_large_image"
     site: "@n3b3x"
