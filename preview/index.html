@@ -242,7 +242,7 @@
 
 <p><a href="https://docs.espressif.com/projects/esp-idf/"><img src="https://img.shields.io/badge/ESP--IDF-Matrix%20Builds-green?logo=espressif" alt="ESP-IDF" /></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-<a href="https://n3b3x.github.io/hf-espidf-ci-tools"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="GitHub Pages" /></a></p>
+<a href="https://hardfoc.github.io/hf-espidf-ci-tools"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="GitHub Pages" /></a></p>
 
 <p><em>Comprehensive GitHub Actions workflows for ESP-IDF development with matrix builds, security auditing, and automated documentation</em></p><hr />
 <h2 id="-documentation">
@@ -254,7 +254,7 @@
 </h2>
     
 
-<p><strong>🌐 <a href="https://n3b3x.github.io/hf-espidf-ci-tools/">Live Documentation Site</a></strong><br />
+<p><strong>🌐 <a href="https://hardfoc.github.io/hf-espidf-ci-tools/">Live Documentation Site</a></strong><br />
 <em>Published documentation with enhanced navigation and search</em></p>
 
 <div class="table-wrapper"><table>
@@ -375,7 +375,7 @@
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
@@ -424,13 +424,13 @@
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Build firmware across multiple configurations</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="c1"># Security audit</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">all"</span>
@@ -440,7 +440,7 @@
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">if</span><span class="pi">:</span> <span class="s">startsWith(github.ref, 'refs/tags/')</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fw-.*"</span>
@@ -497,7 +497,7 @@
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>   <span class="c1"># Change to where your esp32 project directory is</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">hf-espidf-project-tools</span>  
@@ -505,7 +505,7 @@
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">false</span>
 
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">hf-espidf-project-tools</span>

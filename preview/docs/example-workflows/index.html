@@ -341,13 +341,13 @@ project’s needs.</p>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Build firmware across multiple configurations</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="c1"># Security audit</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">all"</span>
@@ -497,7 +497,7 @@ project’s needs.</p>
   <span class="c1"># 🏗️ Build firmware (parallel matrix)</span>
   <span class="na">build</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="s">validate</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">$</span>
@@ -506,7 +506,7 @@ project’s needs.</p>
   <span class="c1"># 🛡️ Security audit</span>
   <span class="na">security</span><span class="pi">:</span>
     <span class="na">if</span><span class="pi">:</span> <span class="s">$</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">$</span>
@@ -574,14 +574,14 @@ project’s needs.</p>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Quick build for development</span>
   <span class="na">build-dev</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># Use caches for faster builds</span>
 
   <span class="c1"># Security audit</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">dependencies"</span>  <span class="c1"># Quick dependency scan for dev</span>
@@ -699,14 +699,14 @@ project’s needs.</p>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Comprehensive build for release</span>
   <span class="na">build-release</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">true</span>  <span class="c1"># Clean build for release</span>
 
   <span class="c1"># Full security audit</span>
   <span class="na">security-release</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">all"</span>
@@ -834,7 +834,7 @@ project’s needs.</p>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Security audit (runs first)</span>
   <span class="na">security-audit</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">all"</span>
@@ -844,7 +844,7 @@ project’s needs.</p>
   <span class="c1"># Build only if security passes</span>
   <span class="na">build-secure</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="s">security-audit</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">true</span>
@@ -934,14 +934,14 @@ project’s needs.</p>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Optimized build with aggressive caching</span>
   <span class="na">build-fast</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># Always use caches</span>
 
   <span class="c1"># Quick security scan</span>
   <span class="na">security-quick</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">$</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">dependencies"</span>  <span class="c1"># Only dependency scan for speed</span>
@@ -1055,7 +1055,7 @@ project’s needs.</p>
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">security</span><span class="pi">:</span>
     <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'pull_request' || github.ref == 'refs/heads/main'</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scan_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">all"</span>

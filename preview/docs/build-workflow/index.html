@@ -432,7 +432,7 @@ projects.</p>
 <p>The workflow includes a built-in <code class="language-plaintext highlighter-rouge">ensure-tools-directory</code> action that provides:</p>
 
 <ul>
-  <li><strong>🔒 Trusted Source Only</strong>: Only clones from the verified <code class="language-plaintext highlighter-rouge">N3b3x/hf-espidf-project-tools</code> repository</li>
+  <li><strong>🔒 Trusted Source Only</strong>: Only clones from the verified <code class="language-plaintext highlighter-rouge">hardfoc/hf-espidf-project-tools</code> repository</li>
   <li><strong>🛡️ Security Validation</strong>: Validates submodule URLs and ensures scripts are from trusted sources</li>
   <li><strong>⚡ Automatic Resolution</strong>: Intelligently detects and resolves tool directory paths</li>
   <li><strong>🔧 Script Validation</strong>: Ensures all required scripts exist and are executable</li>
@@ -689,7 +689,7 @@ represents the <strong>total memory footprint</strong> of your firmware. This in
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">examples/esp32/hf-espidf-project-tools</span>  <span class="c1"># Points to submodule</span>
@@ -732,7 +732,7 @@ represents the <strong>total memory footprint</strong> of your firmware. This in
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="c1"># project_tools_dir not needed - auto-detects hf-espidf-project-tools</span>
@@ -766,7 +766,7 @@ represents the <strong>total memory footprint</strong> of your firmware. This in
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">firmware/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">build-tools</span>
@@ -814,13 +814,13 @@ represents the <strong>total memory footprint</strong> of your firmware. This in
 <span class="c1">#</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build-project-a</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">projects/project-a</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">shared-tools</span>  <span class="c1"># Shared across all projects</span>
       
   <span class="na">build-project-b</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">projects/project-b</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">shared-tools</span>  <span class="c1"># Same shared tools directory</span>
@@ -1019,7 +1019,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
@@ -1072,7 +1072,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">hf-espidf-project-tools</span>
@@ -1096,7 +1096,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 6
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">true</span>  <span class="c1"># Skip all caches for fresh build</span>
@@ -1119,7 +1119,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 7
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">custom-tools</span>  <span class="c1"># Use custom tools directory</span>
@@ -1142,7 +1142,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 6
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">max_dec_total</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1600000"</span>  <span class="c1"># 1.6MB size limit (in bytes)</span>
@@ -1196,7 +1196,7 @@ The build directory follows the pattern: <code class="language-plaintext highlig
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">hf-espidf-project-tools</span>
@@ -2477,7 +2477,7 @@ idf.py <span class="nt">-B</span> <span class="s2">"</span><span class="nv">$BUI
 4
 5
 </pre></td><td class="rouge-code"><pre><span class="c"># Add submodule</span>
-git submodule add https://github.com/N3b3x/hf-espidf-project-tools.git examples/esp32/scripts
+git submodule add https://github.com/hardfoc/hf-espidf-project-tools.git examples/esp32/scripts
 
 <span class="c"># Initialize submodule</span>
 git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
@@ -3336,7 +3336,7 @@ git submodule update <span class="nt">--init</span> <span class="nt">--recursive
 6
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">clean_build</span><span class="pi">:</span> <span class="no">true</span>  <span class="c1"># Bypass caches for debugging</span>
@@ -3408,7 +3408,7 @@ python3 hf-espidf-project-tools/generate_matrix.py <span class="nt">--validate</
     
 
 <ul>
-  <li>🏗️ <a href="https://github.com/N3b3x/hf-espidf-project-tools"><strong>Build System</strong></a> - Complete build system guide</li>
+  <li>🏗️ <a href="https://github.com/hardfoc/hf-espidf-project-tools"><strong>Build System</strong></a> - Complete build system guide</li>
   <li>Check cache key generation in workflow</li>
   <li>Verify cache paths are accessible</li>
 </ul>

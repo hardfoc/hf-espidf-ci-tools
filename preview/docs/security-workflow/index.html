@@ -311,7 +311,7 @@ detection, and optional CodeQL analysis.</p>
     
 
 <ul>
-  <li><strong>Trusted Source Only</strong>: Tools are only cloned from the trusted N3b3x/hf-espidf-project-tools repository</li>
+  <li><strong>Trusted Source Only</strong>: Tools are only cloned from the trusted hardfoc/hf-espidf-project-tools repository</li>
   <li><strong>No External URLs</strong>: Users cannot specify arbitrary repository URLs, preventing supply chain attacks</li>
   <li><strong>Main Branch Only</strong>: Always uses the main branch for consistency and stability</li>
   <li><strong>Shallow Cloning</strong>: Uses <code class="language-plaintext highlighter-rouge">--depth 1</code> to minimize attack surface and reduce clone time</li>
@@ -471,7 +471,7 @@ detection, and optional CodeQL analysis.</p>
 9
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scripts_dir</span><span class="pi">:</span> <span class="s">nt-espidf-tools</span>
@@ -498,7 +498,7 @@ detection, and optional CodeQL analysis.</p>
 8
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scripts_dir</span><span class="pi">:</span> <span class="s">nt-espidf-tools</span>
@@ -526,7 +526,7 @@ detection, and optional CodeQL analysis.</p>
 10
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scripts_dir</span><span class="pi">:</span> <span class="s">nt-espidf-tools</span>
@@ -616,14 +616,14 @@ detection, and optional CodeQL analysis.</p>
 </pre></td><td class="rouge-code"><pre><span class="c1"># In your CI workflow, ensure consistency:</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scripts_dir</span><span class="pi">:</span> <span class="s">nt-espidf-tools</span>
       <span class="c1"># ... other inputs</span>
 
   <span class="na">security</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">scripts_dir</span><span class="pi">:</span> <span class="s">nt-espidf-tools</span>

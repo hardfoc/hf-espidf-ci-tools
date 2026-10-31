@@ -307,14 +307,14 @@
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="c1"># Build first (required for artifacts)</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="c1"># Release with artifacts</span>
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fw-.*"</span>
@@ -361,13 +361,13 @@
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fw-.*"</span>
@@ -485,7 +485,7 @@
 </pre></td><td class="rouge-code"><pre><span class="c1"># Required: ESP32 build workflow that generates fw-* artifacts</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="c1"># This creates artifacts like: fw-esp32c6-hf-interface-simple</span>
@@ -593,13 +593,13 @@
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
     <span class="na">permissions</span><span class="pi">:</span>
@@ -630,13 +630,13 @@
 14
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fw-(basic|advanced)-.*"</span>  <span class="c1"># Multiple variants</span>
@@ -663,7 +663,7 @@
 9
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">release</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">prerelease</span><span class="pi">:</span> <span class="no">true</span>
       <span class="na">draft</span><span class="pi">:</span> <span class="s">$</span>
@@ -694,11 +694,11 @@
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">custom-build</span><span class="pi">:</span>
     <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">custom-esp32-ci.yml"</span>  <span class="c1"># Your custom workflow name</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
 
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">custom-build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">custom-esp32-ci.yml"</span>  <span class="c1"># Match your workflow file</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">custom-fw-.*"</span>       <span class="c1"># Match your artifact names</span>
@@ -798,20 +798,20 @@
 
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">build</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
       <span class="na">project_tools_dir</span><span class="pi">:</span> <span class="s">hf-espidf-project-tools</span>
 
   <span class="na">test</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ci-security.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ci-security.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">project_dir</span><span class="pi">:</span> <span class="s">examples/esp32</span>
 
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">needs</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">build</span><span class="pi">,</span> <span class="nv">test</span><span class="pi">]</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">build_workflow</span><span class="pi">:</span> <span class="s2">"</span><span class="s">esp32-examples-build-ci.yml"</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fw-esp32c6-.*"</span>
@@ -845,7 +845,7 @@
 </pre></td><td class="rouge-code"><pre><span class="c1"># Use environment-based patterns</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">release</span><span class="pi">:</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
     <span class="na">with</span><span class="pi">:</span>
       <span class="na">artifact_pattern</span><span class="pi">:</span> <span class="s">$</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
@@ -865,7 +865,7 @@
 </pre></td><td class="rouge-code"><pre><span class="na">jobs</span><span class="pi">:</span>
   <span class="na">release</span><span class="pi">:</span>
     <span class="na">if</span><span class="pi">:</span> <span class="s">startsWith(github.ref, 'refs/tags/') &amp;&amp; !contains(github.ref_name, 'dev')</span>
-    <span class="na">uses</span><span class="pi">:</span> <span class="s">N3b3x/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div><hr />
 <h2 id="-troubleshooting">
   
