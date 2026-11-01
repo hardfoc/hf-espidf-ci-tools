@@ -45,7 +45,7 @@ jobs:
       matrix: ${{ steps.gen.outputs.matrix }}
       project_tools_path: ${{ steps.validate.outputs.project_tools_path }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
         with:
           submodules: recursive
 
@@ -57,7 +57,7 @@ jobs:
           project_dir: ${{ env.ESP32_PROJECT_PATH }}
           auto_clone_tools: ${{ inputs.auto_clone_tools }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         with:
           python-version: '3.x'
 
@@ -68,10 +68,12 @@ jobs:
 
       - name: Generate matrix
         id: gen
+        env:
+          TOOLS_PATH: ${{ steps.validate.outputs.project_tools_path }}
         run: |
           set -e
           # Scripts directory and generate_matrix.py already validated
-          MATRIX=$(python3 "${{ steps.validate.outputs.project_tools_path }}/generate_matrix.py")
+          MATRIX=$(python3 "${TOOLS_PATH}/generate_matrix.py")
           echo "matrix=${MATRIX}" >> "$GITHUB_OUTPUT"
           echo "$MATRIX" | python3 -m json.tool
 
@@ -96,13 +98,13 @@ jobs:
             /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
           df -h /
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
         with:
           submodules: recursive
 
       - name: Cache Python deps (for project scripts)
         if: ${{ !inputs.clean_build }}
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
         with:
           path: |
             ~/.cache/pip
@@ -117,11 +119,13 @@ jobs:
             espidf-python-${{ runner.os }}-
 
       - name: Install Python deps (optional)
+        env:
+          TOOLS_PATH: ${{ needs.generate-matrix.outputs.project_tools_path }}
         run: |
           # Project tools directory already validated in generate-matrix job
-          if [ -f "${{ needs.generate-matrix.outputs.project_tools_path }}/requirements.txt" ]; then
+          if [ -f "${TOOLS_PATH}/requirements.txt" ]; then
             python -m pip install --upgrade pip
-            pip install -r "${{ needs.generate-matrix.outputs.project_tools_path }}/requirements.txt"
+            pip install -r "${TOOLS_PATH}/requirements.txt"
           fi
 
       # esp-idf-ci-action runs `docker run espressif/idf:<tag>`, which pulls the
@@ -149,7 +153,7 @@ jobs:
 
       - name: Build (espressif/esp-idf-ci-action)
         id: build
-        uses: espressif/esp-idf-ci-action@v1
+        uses: espressif/esp-idf-ci-action@e6f5c74232b1ccd4c97ed641f1e48553853f1fd5  # v1.2.0
         with:
           esp_idf_version: ${{ matrix.idf_version_docker }}
           target: ${{ matrix.target }}
@@ -245,7 +249,7 @@ jobs:
             # Note: Cannot set GitHub outputs from inside Docker container
             # Will use wildcard pattern for upload instead
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         if: always()
         with:
           name: fw-${{ matrix.app_name }}-${{ matrix.idf_version_docker }}-${{ matrix.build_type }}
@@ -259,7 +263,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download all firmware artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0
         with:
           pattern: fw-*
           merge-multiple: true
@@ -270,12 +274,16 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
+          # Literal backticks for Markdown code spans in the table cells.
+          # shellcheck disable=SC2016
+          BT='`'
           OUT="size-summary.md"
-          echo "## 📦 Firmware Size Summary" > "$OUT"
-          echo "" >> "$OUT"
-          echo "| App | IDF | Target | Build | Flash/RAM summary |" \
-               >> "$OUT"
-          echo "|---|---|---|---|---|" >> "$OUT"
+          {
+            echo "## 📦 Firmware Size Summary"
+            echo ""
+            echo "| App | IDF | Target | Build | Flash/RAM summary |"
+            echo "|---|---|---|---|---|"
+          } > "$OUT"
 
           found=0
           shopt -s nullglob
@@ -289,10 +297,10 @@ jobs:
 
             if [[ -f "$dir/size.txt" ]]; then
               summary="$(grep -E 'Total|text\s+data\s+bss' "$dir/size.txt" 2>/dev/null | \
-                        head -2 | tr -s ' ' ' ' | sed 's/^/`/;s/$/`/' | \
-                        paste -sd '<br/>' - 2>/dev/null || echo '`size.txt parse error`')"
+                        head -2 | tr -s ' ' ' ' | sed "s/^/${BT}/;s/\$/${BT}/" | \
+                        paste -sd '<br/>' - 2>/dev/null || echo "${BT}size.txt parse error${BT}")"
             else
-              summary="`size.txt missing`"
+              summary="${BT}size.txt missing${BT}"
             fi
 
             echo "| $app | $idf | $tgt | $bld |" \
@@ -312,8 +320,8 @@ jobs:
               bld="$(echo "$parent" | grep -Eo '(Debug|Release)' || \
                   echo '-')"
               summary="$(grep -E 'Total|text\s+data\s+bss' "$st" 2>/dev/null | \
-                        head -2 | tr -s ' ' ' ' | sed 's/^/`/;s/$/`/' | \
-                        paste -sd '<br/>' - 2>/dev/null || echo '`size.txt parse error`')"
+                        head -2 | tr -s ' ' ' ' | sed "s/^/${BT}/;s/\$/${BT}/" | \
+                        paste -sd '<br/>' - 2>/dev/null || echo "${BT}size.txt parse error${BT}")"
               echo "| $app | $idf | $tgt | $bld |" \
                    " ${summary:-\`See size.txt\`} |" \
                    >> "$OUT"
@@ -329,7 +337,7 @@ jobs:
           echo "file=$OUT" >> "$GITHUB_OUTPUT"
 
       - name: Comment summary on PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # v7.1.0
         with:
           script: |
             // Only create comment if we have a valid issue number

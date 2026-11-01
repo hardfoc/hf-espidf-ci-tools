@@ -25,6 +25,10 @@ runs:
     - name: Resolve and ensure tools directory
       id: resolve
       shell: bash
+      env:
+        INPUT_TOOLS_DIR: ${{ inputs.project_tools_dir }}
+        INPUT_PROJECT_DIR: ${{ inputs.project_dir }}
+        INPUT_AUTO_CLONE: ${{ inputs.auto_clone_tools }}
       run: |
         set -e
 
@@ -35,17 +39,17 @@ runs:
         echo "Tools directory name: ${TOOLS_DIR_NAME}"
 
         # Resolve project tools path using consistent logic - always output relative paths
-        if [ -n "${{ inputs.project_tools_dir }}" ]; then
+        if [ -n "${INPUT_TOOLS_DIR}" ]; then
           # Use the input as-is if it's already relative, or make it relative if absolute
-          if [[ "${{ inputs.project_tools_dir }}" == /* ]]; then
+          if [[ "${INPUT_TOOLS_DIR}" == /* ]]; then
             # Convert absolute path to relative by removing the workspace root
-            SCRIPTS_PATH=$(echo "${{ inputs.project_tools_dir }}" | sed "s|^$(pwd)/||")
+            SCRIPTS_PATH="${INPUT_TOOLS_DIR#"$(pwd)/"}"
           else
-            SCRIPTS_PATH="${{ inputs.project_tools_dir }}"
+            SCRIPTS_PATH="${INPUT_TOOLS_DIR}"
           fi
         else
-          if [ -d "${{ inputs.project_dir }}/${TOOLS_DIR_NAME}" ]; then
-            SCRIPTS_PATH="${{ inputs.project_dir }}/${TOOLS_DIR_NAME}"
+          if [ -d "${INPUT_PROJECT_DIR}/${TOOLS_DIR_NAME}" ]; then
+            SCRIPTS_PATH="${INPUT_PROJECT_DIR}/${TOOLS_DIR_NAME}"
           else
             SCRIPTS_PATH="${TOOLS_DIR_NAME}"
           fi
@@ -54,17 +58,17 @@ runs:
         echo "Resolved project tools path (relative): ${SCRIPTS_PATH}"
 
         # Also resolve project directory path to absolute
-        if [[ "${{ inputs.project_dir }}" == /* ]]; then
-          PROJECT_PATH="${{ inputs.project_dir }}"
+        if [[ "${INPUT_PROJECT_DIR}" == /* ]]; then
+          PROJECT_PATH="${INPUT_PROJECT_DIR}"
         else
-          PROJECT_PATH="$(pwd)/${{ inputs.project_dir }}"
+          PROJECT_PATH="$(pwd)/${INPUT_PROJECT_DIR}"
         fi
         echo "Resolved project path: ${PROJECT_PATH}"
 
         # Check if directory exists and handle accordingly
         if [ ! -d "${SCRIPTS_PATH}" ]; then
           # Only auto-clone if project_tools_dir was not explicitly provided
-          if [ -z "${{ inputs.project_tools_dir }}" ] && [ "${{ inputs.auto_clone_tools }}" = "true" ]; then
+          if [ -z "${INPUT_TOOLS_DIR}" ] && [ "${INPUT_AUTO_CLONE}" = "true" ]; then
             echo "Auto-cloning tools repo to ${SCRIPTS_PATH}"
 
             # Security: Using hardcoded trusted repository URL and main branch
@@ -77,8 +81,8 @@ runs:
             ls -la . || true
             ls -la "${PROJECT_PATH}" || true
             echo ""
-            if [ -n "${{ inputs.project_tools_dir }}" ]; then
-              echo "HINT: You specified project_tools_dir='${{ inputs.project_tools_dir }}' but it doesn't exist." >&2
+            if [ -n "${INPUT_TOOLS_DIR}" ]; then
+              echo "HINT: You specified project_tools_dir='${INPUT_TOOLS_DIR}' but it doesn't exist." >&2
               echo "HINT: Check the path or ensure the submodule is properly initialized." >&2
             else
               echo "HINT: If using submodules, ensure the submodule is properly initialized." >&2
