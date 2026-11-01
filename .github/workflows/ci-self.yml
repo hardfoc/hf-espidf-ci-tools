@@ -97,6 +97,9 @@ jobs:
       - name: Job permissions match the README permissions table
         run: python .github/scripts/check_permissions.py
 
+      - name: README inputs tables match the workflows
+        run: python .github/scripts/gen_readme_inputs.py --check
+
       - name: Unit tests for the check scripts
         run: python .github/scripts/test_checks.py
 
