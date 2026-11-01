@@ -1,58 +1,28 @@
 # Lychee configuration file for link checking
-# See https://github.com/lycheeverse/lychee for documentation
+# See https://github.com/lycheeverse/lychee/blob/master/lychee.example.toml
 
-# Exclude patterns for files/directories
-# Note: These patterns are relative to the repository root
-exclude = [
+# Files/directories that should not be scanned (regex, relative to repository root)
+exclude_path = [
     "_config/_includes",
     "_config/_layouts",
     "_config/_pages",
     "_config/_sass",
     "_config/_data",
-    "404.html",
-    "robots.txt",
-    "_config.yml",
-    "_config/_config.yml",
-    "_config/404.html",
-    "docs/robots.txt",
+    "404\\.html",
+    "robots\\.txt",
 ]
 
-# Exclude specific URLs (regex patterns)
-exclude_urls = [
-    # Base URL (404s are expected for root path)
-    "^https://n3b3x\\.github\\.io/?$",
-    "^https://n3b3x\\.github\\.io$",
-    "^https://n3b3x\\.github\\.io/\\s*$",  # With trailing whitespace
-    
-    # Sitemap files (may not exist)
-    "^https://n3b3x\\.github\\.io/hf-espidf-ci-tools/sitemap",
-    
-    # Badge images (may not exist yet)
-    "^https://github\\.com/n3b3x/hf-espidf-ci-tools/actions/workflows/publish-docs\\.yml/badge\\.svg$",
-    
-    # Intentional test links
-    "nonexistent-page$",
-    "^https://n3b3x\\.github\\.io/hf-espidf-ci-tools/nonexistent-page$",
-    
-    # Documentation site URLs (may not be published yet)
-    "^https://n3b3x\\.github\\.io/hf-tmc9660-driver/.*",
-    
+# URLs that should not be checked (regex)
+exclude = [
     # Jekyll template variables (URL-encoded Liquid syntax like %7B%7B = {{)
-    "^file://.*%7B%7B.*%7D%7D",  # Any file:// URL with URL-encoded {{ }}
-    "^file://.*\\{\\{.*\\}\\}",  # Any file:// URL with {{ }}
-    ".*%7B%7B.*%7D%7D",  # Match URL-encoded Jekyll syntax anywhere
-    ".*\\{\\{.*\\}\\}",  # Match Jekyll syntax anywhere
-    ".*%7B%7B.*relative_url.*%7D%7D",  # Match relative_url filter
-    ".*%7B%7B.*%27/%27.*%7D%7D",  # Match {{ '/' | ... }} (URL-encoded)
-    ".*%7B%7B.*%27/docs/%27.*%7D%7D",  # Match {{ '/docs/' | ... }} (URL-encoded)
-    
+    "^file://.*%7B%7B.*%7D%7D",
+    "^file://.*\\{\\{.*\\}\\}",
+    ".*%7B%7B.*%7D%7D",
+    ".*\\{\\{.*\\}\\}",
 ]
 
 # Exclude private URLs
 exclude_all_private = true
-
-# Exclude mailto links
-exclude_mail = true
 
 # Timeout settings
 timeout = 30
