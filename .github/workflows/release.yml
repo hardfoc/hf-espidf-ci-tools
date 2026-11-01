@@ -1,0 +1,82 @@
+---
+# Cuts a release of this repository's reusable workflows when a semver tag
+# is pushed (see docs/VERSIONING.md):
+#   vX.Y.Z        -> GitHub Release with generated notes, and the moving major
+#                    tag vX is force-updated to the same commit, if vX.Y.Z is
+#                    the highest release in that major.
+#   vX.Y.Z-<pre>  -> pre-release; the major tag is not moved.
+name: 🏷️ Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write  # create the release and move the major tag
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          fetch-depth: 0  # all tags, to find the highest release in the major
+
+      - name: Parse tag
+        id: tag
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          if [[ ! "$TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Tag '$TAG' is not vMAJOR.MINOR.PATCH[-PRERELEASE]"
+            exit 1
+          fi
+          major="v${BASH_REMATCH[1]}"
+          if [ -n "${BASH_REMATCH[4]}" ]; then prerelease=true; else prerelease=false; fi
+          {
+            echo "major=$major"
+            echo "prerelease=$prerelease"
+          } >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG major=$major prerelease=$prerelease"
+
+      - name: Create GitHub Release (generated notes)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          PRERELEASE: ${{ steps.tag.outputs.prerelease }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; leaving it as is"
+            exit 0
+          fi
+          args=("$TAG" --verify-tag --generate-notes --title "$TAG")
+          if [ "$PRERELEASE" = "true" ]; then
+            args+=(--prerelease --latest=false)
+          fi
+          gh release create "${args[@]}"
+
+      - name: Move the major tag
+        if: ${{ steps.tag.outputs.prerelease == 'false' }}
+        env:
+          TAG: ${{ github.ref_name }}
+          MAJOR: ${{ steps.tag.outputs.major }}
+        run: |
+          set -euo pipefail
+          # Only the highest release of a major moves it: a patch to an older
+          # minor (v1.2.5 after v1.3.0) must not pull v1 backwards.
+          highest="$(git tag -l "${MAJOR}.*.*" | grep -E "^${MAJOR}\.[0-9]+\.[0-9]+$" | sort -V | tail -n 1)"
+          if [ "$highest" != "$TAG" ]; then
+            echo "::notice::$TAG is not the highest ${MAJOR} release ($highest); ${MAJOR} stays where it is"
+            exit 0
+          fi
+          sha="$(git rev-parse "${TAG}^{commit}")"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -fa "$MAJOR" -m "$MAJOR -> $TAG" "$sha"
+          git push --force origin "refs/tags/${MAJOR}"
+          echo "::notice::${MAJOR} now points at $TAG ($sha)"

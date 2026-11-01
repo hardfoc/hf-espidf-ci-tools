@@ -46,13 +46,127 @@ jobs:
         with:
           submodules: recursive
 
+      # Same logic as .github/actions/ensure-tools-directory, inlined: a
+      # reusable workflow cannot reference an action in its own repository at
+      # the caller's ref, so `uses: ...@main` here would run main's copy even
+      # for callers pinned to @v1.
       - name: Ensure tools directory present
         id: validate
-        uses: hardfoc/hf-espidf-ci-tools/.github/actions/ensure-tools-directory@main
-        with:
-          project_tools_dir: ${{ env.PROJECT_TOOLS_DIR }}
-          project_dir: ${{ env.ESP32_PROJECT_PATH }}
-          auto_clone_tools: ${{ inputs.auto_clone_tools }}
+        shell: bash
+        env:
+          INPUT_TOOLS_DIR: ${{ env.PROJECT_TOOLS_DIR }}
+          INPUT_PROJECT_DIR: ${{ env.ESP32_PROJECT_PATH }}
+          INPUT_AUTO_CLONE: ${{ inputs.auto_clone_tools }}
+        run: |
+          set -e
+
+          # Use hardcoded trusted repository URL and main branch
+          TOOLS_REPO_URL="https://github.com/hardfoc/hf-espidf-project-tools.git"
+          TOOLS_BRANCH="main"
+          TOOLS_DIR_NAME=$(basename "${TOOLS_REPO_URL}" .git)
+          echo "Tools directory name: ${TOOLS_DIR_NAME}"
+
+          # Resolve project tools path using consistent logic - always output relative paths
+          if [ -n "${INPUT_TOOLS_DIR}" ]; then
+            # Use the input as-is if it's already relative, or make it relative if absolute
+            if [[ "${INPUT_TOOLS_DIR}" == /* ]]; then
+              # Convert absolute path to relative by removing the workspace root
+              SCRIPTS_PATH="${INPUT_TOOLS_DIR#"$(pwd)/"}"
+            else
+              SCRIPTS_PATH="${INPUT_TOOLS_DIR}"
+            fi
+          else
+            if [ -d "${INPUT_PROJECT_DIR}/${TOOLS_DIR_NAME}" ]; then
+              SCRIPTS_PATH="${INPUT_PROJECT_DIR}/${TOOLS_DIR_NAME}"
+            else
+              SCRIPTS_PATH="${TOOLS_DIR_NAME}"
+            fi
+          fi
+
+          echo "Resolved project tools path (relative): ${SCRIPTS_PATH}"
+
+          # Also resolve project directory path to absolute
+          if [[ "${INPUT_PROJECT_DIR}" == /* ]]; then
+            PROJECT_PATH="${INPUT_PROJECT_DIR}"
+          else
+            PROJECT_PATH="$(pwd)/${INPUT_PROJECT_DIR}"
+          fi
+          echo "Resolved project path: ${PROJECT_PATH}"
+
+          # Check if directory exists and handle accordingly
+          if [ ! -d "${SCRIPTS_PATH}" ]; then
+            # Only auto-clone if project_tools_dir was not explicitly provided
+            if [ -z "${INPUT_TOOLS_DIR}" ] && [ "${INPUT_AUTO_CLONE}" = "true" ]; then
+              echo "Auto-cloning tools repo to ${SCRIPTS_PATH}"
+
+              # Security: Using hardcoded trusted repository URL and main branch
+              echo "Cloning from trusted source: ${TOOLS_REPO_URL} (${TOOLS_BRANCH} branch)"
+              git clone --depth 1 --branch "${TOOLS_BRANCH}" \
+                "${TOOLS_REPO_URL}" "${SCRIPTS_PATH}"
+            else
+              echo "ERROR: Project tools directory not found at ${SCRIPTS_PATH}" >&2
+              echo "Available directories:" >&2
+              ls -la . || true
+              ls -la "${PROJECT_PATH}" || true
+              echo ""
+              if [ -n "${INPUT_TOOLS_DIR}" ]; then
+                echo "HINT: You specified project_tools_dir='${INPUT_TOOLS_DIR}' but it doesn't exist." >&2
+                echo "HINT: Check the path or ensure the submodule is properly initialized." >&2
+              else
+                echo "HINT: If using submodules, ensure the submodule is properly initialized." >&2
+                echo "HINT: If using auto-clone, set auto_clone_tools: true" >&2
+              fi
+              exit 1
+            fi
+          else
+            echo "Tools directory exists: ${SCRIPTS_PATH}"
+
+            # Check if this looks like a submodule (has .git file or directory)
+            if [ -f "${SCRIPTS_PATH}/.git" ] || [ -d "${SCRIPTS_PATH}/.git" ]; then
+              echo "Detected submodule at ${SCRIPTS_PATH}"
+              # Verify it's the correct submodule
+              if [ -f "${SCRIPTS_PATH}/.git" ]; then
+                SUBMODULE_URL=$(git config --file "${SCRIPTS_PATH}/.git" remote.origin.url 2>/dev/null || echo "")
+                if [ "$SUBMODULE_URL" = "${TOOLS_REPO_URL}" ]; then
+                  echo "✓ Confirmed correct submodule: ${SUBMODULE_URL}"
+                else
+                  echo "⚠️  Submodule URL mismatch: ${SUBMODULE_URL} (expected: ${TOOLS_REPO_URL})"
+                fi
+              fi
+            else
+              echo "Directory exists but doesn't appear to be a git repository"
+            fi
+          fi
+
+          # Debug: List directory contents and check permissions
+          echo "======================================================"
+          echo "TOOLS DIRECTORY VALIDATION"
+          echo "======================================================"
+          echo "Scripts path (relative): ${SCRIPTS_PATH}"
+          echo "Directory contents:"
+          ls -la "${SCRIPTS_PATH}" || echo "Failed to list directory"
+          echo ""
+          echo "Checking script permissions:"
+
+          # Validate required scripts exist and ensure they're executable
+          REQUIRED_SCRIPTS=("generate_matrix.py" "build_app.sh" "config_loader.sh")
+          for script in "${REQUIRED_SCRIPTS[@]}"; do
+            script_path="${SCRIPTS_PATH}/${script}"
+            if [ ! -f "${script_path}" ]; then
+              echo "ERROR: Required script '${script}' not found in ${SCRIPTS_PATH}" >&2
+              echo "Available scripts:" >&2
+              ls -la "${SCRIPTS_PATH}" || true
+              exit 1
+            else
+              echo "✓ Found ${script}: $(ls -la "${script_path}")"
+              # Ensure script is executable
+              chmod +x "${script_path}" 2>/dev/null || echo "Warning: Could not chmod ${script}"
+            fi
+          done
+
+          echo "======================================================"
+          echo "✓ All required scripts found and made executable in ${SCRIPTS_PATH}"
+          echo "project_tools_path=${SCRIPTS_PATH}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         with:

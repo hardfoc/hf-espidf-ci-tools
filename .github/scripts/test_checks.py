@@ -104,5 +104,60 @@ class RunTails(unittest.TestCase):
         self.assertEqual(self.check('if [ -n "$X" ]; then\n  echo set\nfi\n').returncode, 0)
 
 
+class ContractDiff(unittest.TestCase):
+    BASE = textwrap.dedent("""\
+        on:
+          workflow_call:
+            inputs:
+              keep: {type: string, required: false, default: ""}
+              gone: {type: boolean, required: false, default: false}
+        jobs:
+          a: {runs-on: ubuntu-latest, permissions: {contents: read}, steps: [{run: "true"}]}
+        """)
+
+    def check(self, new: str, changelog: str = "") -> subprocess.CompletedProcess:
+        d = tempfile.mkdtemp()
+        wf = os.path.join(d, ".github", "workflows")
+        os.makedirs(wf)
+        git = lambda *a: subprocess.run(["git", "-C", d, *a], check=True, capture_output=True)
+        git("init", "-q")
+        with open(os.path.join(wf, "ru-x.yml"), "w") as fh:
+            fh.write(self.BASE)
+        git("add", "-A")
+        git("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "base")
+        with open(os.path.join(wf, "ru-x.yml"), "w") as fh:
+            fh.write(new)
+        with open(os.path.join(d, "CHANGELOG.md"), "w") as fh:
+            fh.write(changelog)
+        return run("check_contract.py", "--base-ref", "HEAD", cwd=d)
+
+    def test_unchanged_passes(self):
+        self.assertEqual(self.check(self.BASE).returncode, 0)
+
+    def test_new_optional_input_passes(self):
+        new = self.BASE.replace("      gone:", "      extra: {type: string, required: false, default: x}\n      gone:")
+        self.assertEqual(self.check(new).returncode, 0)
+
+    def test_removed_input_fails(self):
+        new = "\n".join(l for l in self.BASE.splitlines() if "gone" not in l) + "\n"
+        r = self.check(new)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("input `gone` removed", r.stdout)
+
+    def test_widened_permissions_fail(self):
+        r = self.check(self.BASE.replace("{contents: read}", "{contents: write}"))
+        self.assertEqual(r.returncode, 1)
+
+    def test_breaking_recorded_in_changelog_passes(self):
+        log = "# Changelog\n\n## [Unreleased]\n\n### Breaking\n\n- removed gone\n\n## [1.0.0]\n"
+        new = "\n".join(l for l in self.BASE.splitlines() if "gone" not in l) + "\n"
+        self.assertEqual(self.check(new, log).returncode, 0)
+
+    def test_breaking_under_released_section_does_not_count(self):
+        log = "# Changelog\n\n## [Unreleased]\n\n### Added\n\n## [1.0.0]\n\n### Breaking\n"
+        new = "\n".join(l for l in self.BASE.splitlines() if "gone" not in l) + "\n"
+        self.assertEqual(self.check(new, log).returncode, 1)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -37,6 +37,18 @@ permalink: /
 
 ---
 
+## 🏷️ Versioning
+
+Pin the moving major tag: `uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1`.
+Releases are semver tags (`v1.0.0`, ...). `v1` always points at the newest
+`v1.x.y`. Breaking changes only arrive with a new major. See
+[docs/VERSIONING.md](docs/VERSIONING.md) and [CHANGELOG.md](CHANGELOG.md).
+
+> After a fix lands here, start a **new** run. "Re-run failed jobs" reuses the
+> reusable-workflow revision that the original run resolved.
+
+---
+
 ## 🔐 Permissions Contract
 
 Each reusable workflow declares minimal `permissions` on every job. A called

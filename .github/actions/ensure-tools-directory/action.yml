@@ -1,6 +1,6 @@
 ---
 name: "Ensure Tools Directory Present"
-description: "Clone or validate the presence of project tools directory"
+description: "Clone or validate the presence of project tools directory. ru-build.yml inlines this logic; the action is kept for direct callers."
 inputs:
   project_tools_dir:
     description: >
