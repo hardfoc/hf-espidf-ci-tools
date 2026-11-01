@@ -124,6 +124,29 @@ jobs:
             pip install -r "${{ needs.generate-matrix.outputs.project_tools_path }}/requirements.txt"
           fi
 
+      # esp-idf-ci-action runs `docker run espressif/idf:<tag>`, which pulls the
+      # image once with no retry; a transient Docker Hub error mid-pull fails
+      # the build (exit 125). Pull it here with retries so the action finds
+      # the image locally.
+      - name: Pre-pull ESP-IDF image (with retries)
+        env:
+          IDF_IMAGE: espressif/idf:${{ matrix.idf_version_docker }}
+        run: |
+          delays=(10 30 60)
+          for attempt in 1 2 3 4; do
+            echo "Pulling ${IDF_IMAGE} (attempt ${attempt}/4)"
+            if docker pull "${IDF_IMAGE}"; then
+              exit 0
+            fi
+            if [ "${attempt}" -lt 4 ]; then
+              delay="${delays[$((attempt - 1))]}"
+              echo "::warning::docker pull ${IDF_IMAGE} failed (attempt ${attempt}); retrying in ${delay}s"
+              sleep "${delay}"
+            fi
+          done
+          echo "::error::Could not pull ${IDF_IMAGE} after 4 attempts"
+          exit 1
+
       - name: Build (espressif/esp-idf-ci-action)
         id: build
         uses: espressif/esp-idf-ci-action@v1
