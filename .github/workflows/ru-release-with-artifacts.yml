@@ -35,22 +35,25 @@ on:
         type: boolean
         default: false
 
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Create Release with Artifacts
     runs-on: ubuntu-latest
+    # contents: write creates the release. Downloading artifacts from another
+    # workflow's run works with this token for the callers' repositories;
+    # actions: read is deliberately not requested, because existing callers
+    # grant only contents: write and would hit startup_failure.
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
         with:
           fetch-depth: 0
 
       # Get the build artifacts that were already tested
       - name: Download build artifacts
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@a92c7ae74cf1df8810783758581e485ac3aaa309  # v28
         with:
           workflow: ${{ inputs.build_workflow }}
           commit: ${{ github.sha }}
@@ -61,7 +64,7 @@ jobs:
 
       # Create release with GitHub's auto-generated notes
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3.0.3
         with:
           tag_name: ${{ inputs.tag_name || github.ref_name }}
           files: artifacts/**/*

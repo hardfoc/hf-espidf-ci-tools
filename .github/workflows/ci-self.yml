@@ -1,0 +1,132 @@
+---
+# Self-CI for the workflow sources in this repository. Runs on every pull
+# request (any base branch, so stacked PRs are checked too) and on main.
+name: 🧪 Workflow Self-CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-self-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ACTIONLINT_VERSION: "1.7.12"
+  ACTIONLINT_SHA256: "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+  SHELLCHECK_VERSION: "0.11.0"
+  SHELLCHECK_SHA256: "8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198"
+
+jobs:
+  actionlint:
+    name: actionlint + shellcheck
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          persist-credentials: false
+
+      # Pinned releases, verified against their published SHA-256, so a new
+      # shellcheck or actionlint release cannot change the result on its own.
+      - name: Install pinned shellcheck and actionlint
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bin"
+          cd "$RUNNER_TEMP"
+
+          sc="shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
+          curl -fsSLO "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/${sc}"
+          echo "${SHELLCHECK_SHA256}  ${sc}" | sha256sum -c -
+          tar -xJf "${sc}"
+          install -m 0755 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" "$RUNNER_TEMP/bin/shellcheck"
+
+          al="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -fsSLO "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${al}"
+          echo "${ACTIONLINT_SHA256}  ${al}" | sha256sum -c -
+          tar -xzf "${al}" actionlint
+          install -m 0755 actionlint "$RUNNER_TEMP/bin/actionlint"
+
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Run actionlint (fails on any finding, shellcheck included)
+        run: |
+          shellcheck --version | head -2
+          actionlint -version | head -1
+          actionlint -color -shellcheck="$(command -v shellcheck)"
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: "3.12"
+
+      # actionlint covers workflows only; the composite actions' bash steps
+      # are checked with the same pinned shellcheck here.
+      - name: shellcheck the composite actions
+        run: |
+          python -m pip install --quiet 'PyYAML==6.0.2'
+          python .github/scripts/shellcheck_actions.py .github/actions/*/action.yml
+
+  workflow-checks:
+    name: workflow contract checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: python -m pip install --quiet 'PyYAML==6.0.2'
+
+      - name: No run block ends with a bare `cond && cmd`
+        run: python .github/scripts/check_run_tails.py .github/workflows/*.yml .github/actions/*/action.yml
+
+      - name: Job permissions match the README permissions table
+        run: python .github/scripts/check_permissions.py
+
+      - name: README inputs tables match the workflows
+        run: python .github/scripts/gen_readme_inputs.py --check
+
+      - name: Unit tests for the check scripts
+        run: python .github/scripts/test_checks.py
+
+      # ru-build inlines the ensure-tools-directory action's script (see the
+      # comment there); the two copies must not drift apart.
+      - name: ru-build's inlined tools-directory step matches the action
+        run: |
+          python - <<'PY'
+          import sys, yaml
+          action = yaml.safe_load(open(".github/actions/ensure-tools-directory/action.yml"))
+          build = yaml.safe_load(open(".github/workflows/ru-build.yml"))
+          a = action["runs"]["steps"][0]["run"]
+          b = next(s["run"] for s in build["jobs"]["generate-matrix"]["steps"] if s.get("id") == "validate")
+          if a != b:
+              print("::error file=.github/workflows/ru-build.yml::the 'Ensure tools directory present' script "
+                    "differs from .github/actions/ensure-tools-directory/action.yml; update both")
+              sys.exit(1)
+          print("inlined script matches the composite action")
+          PY
+
+      # Removed inputs, new required inputs or wider permissions break every
+      # caller on the current major; they need a "### Breaking" entry under
+      # Unreleased in CHANGELOG.md (and then a major release).
+      - name: No unrecorded breaking change against the base branch
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+          python .github/scripts/check_contract.py --base-ref FETCH_HEAD
