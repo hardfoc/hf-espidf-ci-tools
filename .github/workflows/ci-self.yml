@@ -93,3 +93,9 @@ jobs:
 
       - name: No run block ends with a bare `cond && cmd`
         run: python .github/scripts/check_run_tails.py .github/workflows/*.yml .github/actions/*/action.yml
+
+      - name: Job permissions match the README permissions table
+        run: python .github/scripts/check_permissions.py
+
+      - name: Unit tests for the check scripts
+        run: python .github/scripts/test_checks.py

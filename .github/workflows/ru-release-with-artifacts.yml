@@ -35,13 +35,16 @@ on:
         type: boolean
         default: false
 
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Create Release with Artifacts
     runs-on: ubuntu-latest
+    # contents: write creates the release. Downloading artifacts from another
+    # workflow's run works with this token for the callers' repositories;
+    # actions: read is deliberately not requested, because existing callers
+    # grant only contents: write and would hit startup_failure.
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0

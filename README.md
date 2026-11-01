@@ -37,6 +37,24 @@ permalink: /
 
 ---
 
+## 🔐 Permissions Contract
+
+Each reusable workflow declares minimal `permissions` on every job. A called
+workflow cannot ask for more than its caller grants: if it does, the run
+fails before any job starts (`startup_failure`). Grant **at least** the
+following on the calling job, or at the top of the calling workflow. The
+self-CI (`.github/scripts/check_permissions.py`) fails if a workflow's job
+permissions ever differ from this table.
+
+<!-- permissions-table:start -->
+| Workflow | Caller must grant | Why |
+|----------|-------------------|-----|
+| [`ru-build.yml`](.github/workflows/ru-build.yml) | `contents: read`, `pull-requests: write` | checkout; firmware size comment on pull requests |
+| [`ru-release-with-artifacts.yml`](.github/workflows/ru-release-with-artifacts.yml) | `contents: write` | create the release and upload the firmware |
+<!-- permissions-table:end -->
+
+---
+
 ## 🎯 What This Repository Provides
 
 ### **Reusable GitHub Actions Workflows**
