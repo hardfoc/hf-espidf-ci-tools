@@ -1,8 +1,9 @@
-# Versioning and Releases
+# Versioning
 
-Many repositories call these reusable workflows. When all of them used
-`@main`, one bad commit here broke every one of them at once. Versioning
-exists so that does not happen again.
+How the workflows are versioned, which ref to pin, what counts as breaking and how a release is cut.
+
+Many repositories call these reusable workflows. When all of them used `@main`, one bad commit here broke every
+one of them at once. Versioning exists so that does not happen again.
 
 ## Scheme
 
@@ -36,7 +37,7 @@ Anything that can make an existing, correct caller fail:
 | A job needs a permission it did not need before | Callers that grant the old set get `startup_failure` |
 
 A breaking change needs a **major** bump (`v1` → `v2`). It is listed under
-`### Breaking` in the Unreleased section of [CHANGELOG.md](../CHANGELOG.md).
+`### Breaking` in the Unreleased section of the [changelog](changelog.md).
 On pull requests, the self-CI (`.github/scripts/check_contract.py`) compares
 each `ru-*.yml` with the base branch. It fails if it finds one of these
 changes and that heading is missing.
@@ -56,6 +57,10 @@ To retire an input within a major:
 5. Remove it in the next major, and list the removal under `### Breaking`.
 
 ## Cutting a release (maintainers)
+
+Releases of this repository are cut by hand: a merge to `main` does not tag anything, so `@v1` callers get a fix
+when a maintainer tags it. (hf-general-ci-tools releases a patch automatically on every push to `main`; this
+repository's `release.yml` runs on tags only.)
 
 1. Move the Unreleased entries in `CHANGELOG.md` under a new
    `## [X.Y.Z] - YYYY-MM-DD` heading, and merge that to `main`.

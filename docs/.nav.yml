@@ -1,10 +1,18 @@
 ---
-# Site navigation (mkdocs-awesome-nav): the tabs and sidebar, in this order.
+# Site navigation (mkdocs-awesome-nav): the tabs and their pages, in reading order.
 nav:
   - Home: index.md
-  - "ESP-IDF Build Workflow Guide": build-workflow.md
-  - "Security Workflow Guide": security-workflow.md
-  - "Example Workflows for Consumer Repositories": example-workflows.md
-  - "Release Workflow": release-workflow.md
-  - "Versioning and Releases": VERSIONING.md
-  - "README.md": README.md
+  - Get started:
+      - Quickstart: quickstart.md
+  - Concepts:
+      - Permissions contract: permissions.md
+      - Versioning: versioning.md
+  - Guides:
+      - ru-build: ru-build.md
+      - ru-release-with-artifacts: ru-release-with-artifacts.md
+      - ensure-tools-directory: ensure-tools-directory.md
+      - Migrating to v1: migration.md
+  - Reference:
+      - Testing and CI: testing.md
+      - Figures: diagrams/index.md
+      - Changelog: changelog.md

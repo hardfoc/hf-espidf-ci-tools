@@ -1,6 +1,6 @@
 ---
 # Cuts a release of this repository's reusable workflows when a semver tag
-# is pushed (see docs/VERSIONING.md):
+# is pushed (see docs/versioning.md):
 #   vX.Y.Z        -> GitHub Release with generated notes, and the moving major
 #                    tag vX is force-updated to the same commit, if vX.Y.Z is
 #                    the highest release in that major.

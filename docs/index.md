@@ -1,141 +1,84 @@
-# Documentation Index
-
-**📋 Documentation Index and Navigation**
-
+---
+hide:
+  - navigation
+  - toc
 ---
 
-Welcome to the hf-espidf-ci-tools documentation! This guide provides comprehensive coverage of all
-reusable workflows and how to integrate them into your ESP-IDF projects.
+<div class="hf-hero" markdown>
+<span class="hf-kicker">HardFOC CI tools</span>
 
-## Quick Navigation
+# ESP-IDF CI Tools
 
-| Workflow | Description | Quick Start |
-|----------|-------------|-------------|
-| **[Build](build-workflow.md)** | ESP-IDF matrix builds with caching | [→ Build Guide](build-workflow.md) |
-| **[Security](security-workflow.md)** | Dependencies, secrets, CodeQL | [→ Security Guide](security-workflow.md) |
-| **[Release](release-workflow.md)** | Firmware releases with build artifacts | [→ Release Guide](release-workflow.md) |
+<p>Reusable GitHub Actions workflows for ESP-IDF projects. One builds every example app across a matrix of ESP-IDF
+versions and build types and reports the firmware size; the other attaches that firmware to a GitHub Release.</p>
 
-## Prerequisites
+[Quickstart](quickstart.md){ .md-button .md-button--primary }
+[ru-build](ru-build.md){ .md-button }
+[Source on GitHub](https://github.com/hardfoc/hf-espidf-ci-tools){ .md-button }
+</div>
 
-Before using these workflows, ensure you have:
+Every HardFOC driver, `hf-core`, `hf-internal-interface-wrap` and the board HALs build their ESP32 examples with
+these workflows. A caller writes about fifteen lines of YAML and pins `@v1`; the matrix comes from the caller's own
+`app_config.yml`, read by the scripts in
+[hf-espidf-project-tools](https://github.com/hardfoc/hf-espidf-project-tools). C++ lint, documentation and the CI
+gate live in [hf-general-ci-tools](https://github.com/hardfoc/hf-general-ci-tools).
 
-1. **ESP-IDF project** with proper structure
-2. **hf-espidf-project-tools repository** cloned in your project
-3. **GitHub Actions enabled** in your repository
+<!-- figure: workflow-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/workflow-flow.dark.svg">
+  <img src="diagrams/workflow-flow.svg"
+    alt="Flow diagram: a calling repository runs ru-build, whose generate-matrix, build and size-report jobs
+    read app_config.yml through hf-espidf-project-tools, build every app in the espressif/idf image and
+    upload fw-* artifacts; on a version tag ru-release-with-artifacts attaches those artifacts to a
+    GitHub Release.">
+</picture>
+<!-- /figure -->
 
-## Project Structure
+## What it provides
 
-```
-your-esp32-project/
-├── .github/workflows/          # Your CI workflows
-├── examples/esp32/             # ESP-IDF project (project_dir)
-├── hf-espidf-project-tools/    # Project tools repo (project_tools_dir)
-│   ├── generate_matrix.py      # Build matrix generator
-│   ├── build_app.sh           # Application builder
-│   ├── requirements.txt        # Python dependencies
-│   └── config_loader.sh        # Configuration management
-├── src/                        # Source code
-├── inc/                        # Headers
-└── CMakeLists.txt              # ESP-IDF project file
-```
+| Workflow or action | What it does | Caller grants |
+| --- | --- | --- |
+| [`ru-build.yml`](ru-build.md) | Builds every app, IDF version and build type in `app_config.yml`, uploads `fw-*` artifacts, comments a size table on pull requests | `contents: read`, `pull-requests: write` |
+| [`ru-release-with-artifacts.yml`](ru-release-with-artifacts.md) | On a tag, creates a GitHub Release with the `fw-*` artifacts built for that commit | `contents: write` |
+| [`ensure-tools-directory`](ensure-tools-directory.md) | Composite action: finds or clones hf-espidf-project-tools in your own jobs | none |
 
-## Basic Setup
+## What you get
 
-### 1. Clone the Tools Repository
+- **One matrix, one source.** The apps, ESP-IDF versions, build types and exclusions are read from
+  `app_config.yml`, the same file the local build scripts use. See [ru-build](ru-build.md#the-matrix).
+- **Builds that survive Docker Hub.** The image is pulled up to four times with back-off before the build.
+- **A size table on every pull request**, and an optional size budget that fails the run.
+- **Releases that ship what was tested.** The release attaches the artifacts of the build that ran on the tagged
+  commit; nothing is rebuilt. See [ru-release-with-artifacts](ru-release-with-artifacts.md).
+- **A stable contract.** `@v1` never removes an input or asks for a new permission; the self-CI enforces it. See
+  [Versioning](versioning.md) and the [permissions contract](permissions.md).
 
-```bash
-git clone https://github.com/hardfoc/hf-espidf-project-tools.git
-```
+## Where to go next
 
-### 2. Create Your First CI Workflow
+<div class="grid cards" markdown>
 
-```yaml
-# .github/workflows/ci.yml
-name: CI
-on:
-  push: { branches: [ main ] }
-  pull_request: { branches: [ main ] }
+-   :material-rocket-launch-outline: **[Quickstart](quickstart.md)**
 
-jobs:
-  build:
-    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
-    with:
-      project_dir: examples/esp32
-      project_tools_dir: hf-espidf-project-tools
-      auto_clone_tools: true
-      clean_build: false
+    ---
 
-  security:
-    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/security.yml@v1
-    with:
-      project_dir: examples/esp32
-      project_tools_dir: hf-espidf-project-tools
-      scan_type: "all"
-      run_codeql: true
-```
+    Add the build workflow to a repository with ESP32 examples.
 
-## Workflow Details
+-   :material-hammer-wrench: **[ru-build](ru-build.md)**
 
-### Build Workflow
+    ---
 
-- **Purpose**: Matrix builds across ESP-IDF versions and build types
-- **Key Features**: Caching, artifact uploads, matrix generation
-- **Use Case**: CI/CD for ESP32 applications
+    Jobs, inputs, artifacts, size report and failure modes.
 
-[→ Full Build Guide](build-workflow.md)
+-   :material-tag-outline: **[ru-release-with-artifacts](ru-release-with-artifacts.md)**
 
+    ---
 
-### Security Workflow
+    Ship the tested firmware with each version tag.
 
-- **Purpose**: Comprehensive security auditing
-- **Key Features**: Dependencies, secrets, CodeQL analysis
-- **Use Case**: Security compliance and vulnerability detection
+-   :material-shield-check-outline: **[Permissions contract](permissions.md)**
 
-[→ Full Security Guide](security-workflow.md)
+    ---
 
-### Release Workflow
+    What a caller must grant, and why a missing grant fails at startup.
 
-- **Purpose**: Automated firmware releases with build artifacts
-- **Key Features**: GitHub releases, firmware binaries, auto-generated notes
-- **Use Case**: Version releases with ESP32 firmware artifacts
-
-[→ Full Release Guide](release-workflow.md)
-
-## Workflow Combinations
-
-### Full CI Pipeline
-
-```yaml
-# Combines all workflows for comprehensive CI
-jobs:
-  build: # Matrix builds
-  security: # Security audit
-  release: # Firmware release (on tags)
-```
-
-### Security Pipeline
-
-```yaml
-# Security-focused workflows
-jobs:
-  security: # Full security audit
-```
-
-## Next Steps
-
-1. **Choose your workflows** based on your project needs
-2. **Read the individual guides** for detailed configuration
-3. **Customize inputs** to match your project structure
-4. **Test with a simple workflow** before adding complexity
-
-## Related Resources
-
-- [Main Repository](https://github.com/hardfoc/hf-espidf-ci-tools)
-- [Project Tools Repository](https://github.com/hardfoc/hf-espidf-project-tools)
-- [ESP-IDF Documentation](https://docs.espressif.com/projects/esp-idf/)
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-
----
-
-[← Previous:🏠**Main README**](../README.md) | [Next: Build Workflow →](build-workflow.md)
-
+</div>
