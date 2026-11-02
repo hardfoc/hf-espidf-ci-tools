@@ -1,11 +1,3 @@
----
-layout: default
-title: "🏷️ Versioning and Releases"
-description: "How the reusable workflows are versioned, pinned by callers, and released"
-nav_order: 20
-permalink: /docs/VERSIONING/
----
-
 # Versioning and Releases
 
 Many repositories call these reusable workflows. When all of them used

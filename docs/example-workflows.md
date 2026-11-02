@@ -1,13 +1,4 @@
----
-layout: default
-title: "🚀 Example Workflows for Consumer Repositories"
-description: "Complete workflow examples for HardFOC ESP32 projects - Ready-to-use GitHub Actions workflows that leverage all CI tools in parallel"
-nav_order: 5
-parent: "📚 Documentation"
-permalink: /docs/example-workflows/
----
-
-# 🚀 Example Workflows for Consumer Repositories
+# Example Workflows for Consumer Repositories
 
 **📋 Complete Workflow Examples for HardFOC ESP32 Projects**
 
@@ -15,20 +6,20 @@ permalink: /docs/example-workflows/
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [🎯 Overview](#-overview)
-- [🏗️ Basic Workflow](#-basic-workflow)
-- [🚀 Advanced Parallel Workflow](#-advanced-parallel-workflow)
-- [🔧 Development Workflow](#-development-workflow)
-- [📦 Release Workflow](#-release-workflow)
-- [🛡️ Security-First Workflow](#-security-first-workflow)
+- [🎯 Overview](#overview)
+- [🏗️ Basic Workflow](#basic-workflow)
+- [🚀 Advanced Parallel Workflow](#advanced-parallel-workflow)
+- [🔧 Development Workflow](#development-workflow)
+- [📦 Release Workflow](#release-workflow)
+- [🛡️ Security-First Workflow](#security-first-workflow)
 - [📚 Documentation Workflow](#-documentation-workflow)
-- [⚡ Performance Optimized](#-performance-optimized)
+- [⚡ Performance Optimized](#performance-optimized)
 
 ---
 
-## 🎯 Overview
+## Overview
 
 These example workflows demonstrate how to use the HardFOC ESP32 CI tools in your consumer
 repositories. Each workflow is designed for different use cases and can be customized to fit your
@@ -43,7 +34,7 @@ project's needs.
 
 ---
 
-## 🏗️ Basic Workflow
+## Basic Workflow
 
 **Use Case**: Simple projects that need basic CI/CD with build and lint checks.
 
@@ -74,7 +65,7 @@ jobs:
 
 ---
 
-## 🚀 Advanced Parallel Workflow
+## Advanced Parallel Workflow
 
 **Use Case**: Production projects requiring comprehensive CI/CD with all checks running in parallel.
 
@@ -165,7 +156,7 @@ jobs:
 
 ---
 
-## 🔧 Development Workflow
+## Development Workflow
 
 **Use Case**: Development branches with auto-fix and relaxed checks.
 
@@ -197,7 +188,7 @@ jobs:
 
 ---
 
-## 📦 Release Workflow
+## Release Workflow
 
 **Use Case**: Release branches with comprehensive checks and artifact publishing.
 
@@ -287,7 +278,7 @@ jobs:
 
 ---
 
-## 🛡️ Security-First Workflow
+## Security-First Workflow
 
 **Use Case**: Security-critical projects requiring comprehensive security checks.
 
@@ -346,7 +337,7 @@ jobs:
 ---
 
 
-## ⚡ Performance Optimized
+## Performance Optimized
 
 **Use Case**: Large projects requiring maximum build performance and minimal resource usage.
 
@@ -392,7 +383,7 @@ jobs:
 
 ---
 
-## 🎯 Workflow Selection Guide
+## Workflow Selection Guide
 
 | Use Case | Recommended Workflow | Key Features |
 |----------|---------------------|--------------|
@@ -405,7 +396,7 @@ jobs:
 
 ---
 
-## 🔧 Customization Tips
+## Customization Tips
 
 ### **Environment Variables**
 
@@ -450,7 +441,7 @@ strategy:
 
 ---
 
-## 📚 Next Steps
+## Next Steps
 
 1. **Choose your workflow** based on your project needs
 2. **Customize the configuration** for your specific setup

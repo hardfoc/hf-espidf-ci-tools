@@ -1,12 +1,4 @@
----
-layout: default
-title: "🔧 HardFOC ESP32 CI Tools"
-description: "Reusable GitHub Actions workflows for ESP-IDF matrix builds and firmware releases"
-nav_order: 1
-permalink: /
----
-
-# 🔧 hf-espidf-ci-tools
+# hf-espidf-ci-tools
 
 Reusable GitHub Actions workflows for ESP-IDF projects. One builds firmware
 across a matrix of ESP-IDF versions, build types and apps. The other

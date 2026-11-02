@@ -1,17 +1,10 @@
----
-layout: default
-title: "📦 Release Workflow"
-description: "Automated ESP32 firmware releases with ru-release-with-artifacts.yml"
-nav_order: 4
----
-
-# 📦 ESP32 Release Workflow
+# ESP32 Release Workflow
 
 **Automated firmware releases with `ru-release-with-artifacts.yml`**
 
 ---
 
-## 🎯 Overview
+## Overview
 
 The `ru-release-with-artifacts.yml` workflow provides automated GitHub releases with ESP32 firmware artifacts:
 
@@ -23,7 +16,7 @@ The `ru-release-with-artifacts.yml` workflow provides automated GitHub releases 
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Basic Firmware Release
 
@@ -83,7 +76,7 @@ jobs:
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Inputs
 
@@ -105,7 +98,7 @@ permissions:
 
 ---
 
-## 📋 Workflow Dependencies
+## Workflow Dependencies
 
 ### Build Workflow Integration
 
@@ -131,7 +124,7 @@ Your ESP32 projects should produce artifacts following the pattern:
 
 ---
 
-## 🔄 Release Process
+## Release Process
 
 ### What Happens
 
@@ -153,7 +146,7 @@ The workflow automatically finds and downloads:
 
 ---
 
-## 📦 Usage Patterns
+## Usage Patterns
 
 ### 1. Standard Firmware Release
 
@@ -229,7 +222,7 @@ jobs:
 
 ---
 
-## 🏗️ Build Integration
+## Build Integration
 
 ### Required Build Setup
 
@@ -254,7 +247,7 @@ Example ESP32 build that works with releases:
 
 ---
 
-## 🎯 Real-World Examples
+## Real-World Examples
 
 ### HardFOC Interface Release
 
@@ -290,7 +283,7 @@ jobs:
 
 ---
 
-## 🛠️ Advanced Configuration
+## Advanced Configuration
 
 ### Dynamic Artifact Patterns
 
@@ -314,7 +307,7 @@ jobs:
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -351,7 +344,7 @@ artifact_pattern: "fw-.*-(debug|release)"
 
 ---
 
-## 🔗 Related Workflows
+## Related Workflows
 
 - **[ESP32 Build Workflow](build-workflow.md)** - Required for generating firmware artifacts
 - **[Security Workflow](security-workflow.md)** - Often run before releases

@@ -1,13 +1,4 @@
----
-layout: default
-title: "🏗️ ESP-IDF Build Workflow Guide"
-description: "Advanced ESP32 Build System for HardFOC Projects - Matrix-based building across multiple ESP-IDF versions, build types, and applications with intelligent caching and artifact management"
-nav_order: 3
-parent: "📚 Documentation"
-permalink: /docs/build-workflow/
----
-
-# 🏗️ ESP-IDF Build Workflow Guide
+# ESP-IDF Build Workflow Guide
 
 [![Build](https://img.shields.io/badge/Build-Matrix%20ESP--IDF-blue?logo=espressif)](https://docs.espressif.com/projects/esp-idf/)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-orange?logo=github)
@@ -20,20 +11,20 @@ intelligent caching and artifact management*
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [🎯 Overview](#-overview)
-- [⚙️ Inputs & Configuration](#-inputs--configuration)
-- [📤 Outputs & Artifacts](#-outputs--artifacts)
-- [🚀 Usage Examples](#-usage-examples)
+- [🎯 Overview](#overview)
+- [⚙️ Inputs & Configuration](#inputs--configuration)
+- [📤 Outputs & Artifacts](#outputs--artifacts)
+- [🚀 Usage Examples](#usage-examples)
 - [🔧 Configuration](#-configuration)
-- [🏗️ Build Process](#-build-process)
-- [🔍 Troubleshooting](#-troubleshooting)
-- [📚 Related Documentation](#-related-documentation)
+- [🏗️ Build Process](#build-process)
+- [🔍 Troubleshooting](#troubleshooting)
+- [📚 Related Documentation](#related-documentation)
 
 ---
 
-## 🎯 Overview
+## Overview
 
 ### **Purpose**
 
@@ -62,7 +53,7 @@ projects.
 
 ---
 
-## ⚙️ Inputs & Configuration
+## Inputs & Configuration
 
 ### **Required Inputs**
 
@@ -314,7 +305,7 @@ jobs:
 
 ---
 
-## 📤 Outputs & Artifacts
+## Outputs & Artifacts
 
 ### **Workflow Outputs**
 
@@ -366,7 +357,7 @@ Examples:
 
 ---
 
-## 🚀 Usage Examples
+## Usage Examples
 
 ### **Basic Usage**
 
@@ -473,8 +464,7 @@ jobs:
       project_dir: examples/esp32
       project_tools_dir: hf-espidf-project-tools
       clean_build: false
-      max_dec_total: ${% raw %}{{ github.event.inputs.size_limit != '' && format('{0}{1}', github.event.inputs.size_limit, '000000') || '1600000' }}{% endraw %}
-```
+      max_dec_total: ${{ github.event.inputs.size_limit != '' && format('{0}{1}', github.event.inputs.size_limit, '000000') || '1600000' }}```
 
 ---
 
@@ -1425,7 +1415,7 @@ Your `hf-espidf-project-tools` directory must contain:
 
 ---
 
-## 🏗️ Build Process
+## Build Process
 
 ### **Phase 1: Matrix Generation**
 
@@ -1508,7 +1498,7 @@ Your `hf-espidf-project-tools` directory must contain:
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### **Common Issues & Solutions**
 
@@ -1715,7 +1705,7 @@ python3 hf-espidf-project-tools/generate_matrix.py --validate
 
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
 - 📖 [**Main Documentation**](../README.md) - Complete CI tools overview
 - 🛡️ [**Security Workflow**](security-workflow.md) - Security auditing and analysis
@@ -1726,11 +1716,11 @@ python3 hf-espidf-project-tools/generate_matrix.py --validate
 - Check cache key generation in workflow
 - Verify cache paths are accessible
 
-## 📚 Related Workflows
+## Related Workflows
 
 - **[Security](security-workflow.md)** - Security auditing
 
-## 🔗 Related Resources
+## Related Resources
 
 - [ESP-IDF CI Action](https://github.com/espressif/esp-idf-ci-action)
 - [GitHub Actions Caching](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)

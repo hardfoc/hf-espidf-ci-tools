@@ -1,12 +1,3 @@
----
-layout: default
-title: "🛡️ Security Workflow Guide"
-description: "Comprehensive security auditing for HardFOC ESP32 projects - Dependencies, secrets, and CodeQL analysis with automatic requirements discovery"
-nav_order: 4
-parent: "📚 Documentation"
-permalink: /docs/security-workflow/
----
-
 # Security Workflow Guide
 
 **🛡️ Dependencies, Secrets, CodeQL**
@@ -16,19 +7,19 @@ permalink: /docs/security-workflow/
 The Security workflow provides comprehensive security auditing including dependency scanning, secret
 detection, and optional CodeQL analysis.
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [🎯 Overview](#-overview)
-- [🔒 Security Features](#-security-features)
-- [⚙️ Inputs](#-inputs)
-- [📤 Outputs](#-outputs)
-- [🚀 Usage Examples](#-usage-examples)
-- [⚙️ Configuration](#-configuration)
-- [🛡️ Security Best Practices](#-security-best-practices)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [📚 Related Workflows](#-related-workflows)
+- [🎯 Overview](#overview)
+- [🔒 Security Features](#security-features)
+- [⚙️ Inputs](#inputs)
+- [📤 Outputs](#outputs)
+- [🚀 Usage Examples](#usage-examples)
+- [⚙️ Configuration](#configuration)
+- [🛡️ Security Best Practices](#security-best-practices)
+- [🔧 Troubleshooting](#troubleshooting)
+- [📚 Related Workflows](#related-workflows)
 
-## 🎯 Overview
+## Overview
 
 **Purpose**: Comprehensive security auditing  
 **Key Features**:
@@ -41,7 +32,7 @@ detection, and optional CodeQL analysis.
 
 **Use Case**: Security compliance and vulnerability detection for mixed-language projects
 
-## 🔒 Security Features
+## Security Features
 
 ### Repository Security
 
@@ -62,7 +53,7 @@ detection, and optional CodeQL analysis.
 - **No Manual Configuration**: Scans entire repository without user input
 - **Comprehensive Coverage**: Covers all Python dependencies in the project
 
-## ⚙️ Inputs
+## Inputs
 
 | Input | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
@@ -73,7 +64,7 @@ detection, and optional CodeQL analysis.
 | `codeql_languages` | string | ❌ | `cpp` | Comma-separated languages |
 | `auto_clone_tools` | boolean | ❌ | `false` | Auto-clone tools repo if missing |
 
-## 📤 Outputs
+## Outputs
 
 | Output | Description |
 |--------|-------------|
@@ -82,7 +73,7 @@ detection, and optional CodeQL analysis.
 | CodeQL analysis | Security database and SARIF files |
 | Artifacts | All security reports stored |
 
-## 🚀 Usage Examples
+## Usage Examples
 
 ### Full Security Audit
 
@@ -126,7 +117,7 @@ jobs:
       codeql_languages: "cpp"
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Scan Types
 
@@ -176,7 +167,7 @@ jobs:
       # CodeQL will analyze ALL matrix combinations automatically
 ```
 
-## 🛡️ Security Best Practices
+## Security Best Practices
 
 ### For Production Environments
 
@@ -206,7 +197,7 @@ jobs:
 - **Security scanning**: Run the security workflow regularly to catch vulnerabilities
 - **Separate environments**: Use different requirements files for dev/staging/production
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -239,11 +230,11 @@ env:
   ACTIONS_RUNNER_DEBUG: true
 ```
 
-## 📚 Related Workflows
+## Related Workflows
 
 - **[Build](build-workflow.md)** - ESP-IDF application builds (uses same matrix and build process)
 
-## 🔗 Related Resources
+## Related Resources
 
 - [CodeQL Documentation](https://codeql.github.com/)
 - [GitLeaks](https://github.com/gitleaks/gitleaks)

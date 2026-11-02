@@ -1,12 +1,3 @@
----
-layout: default
-title: "📚 Documentation"
-description: "Complete documentation navigation and setup guide for HardFOC ESP32 CI Tools"
-nav_order: 1
-has_children: true
-permalink: /docs/
----
-
 # Documentation Index
 
 **📋 Documentation Index and Navigation**
@@ -16,7 +7,7 @@ permalink: /docs/
 Welcome to the hf-espidf-ci-tools documentation! This guide provides comprehensive coverage of all
 reusable workflows and how to integrate them into your ESP-IDF projects.
 
-## 🚀 Quick Navigation
+## Quick Navigation
 
 | Workflow | Description | Quick Start |
 |----------|-------------|-------------|
@@ -24,7 +15,7 @@ reusable workflows and how to integrate them into your ESP-IDF projects.
 | **[Security](security-workflow.md)** | Dependencies, secrets, CodeQL | [→ Security Guide](security-workflow.md) |
 | **[Release](release-workflow.md)** | Firmware releases with build artifacts | [→ Release Guide](release-workflow.md) |
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before using these workflows, ensure you have:
 
@@ -32,7 +23,7 @@ Before using these workflows, ensure you have:
 2. **hf-espidf-project-tools repository** cloned in your project
 3. **GitHub Actions enabled** in your repository
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 your-esp32-project/
@@ -48,7 +39,7 @@ your-esp32-project/
 └── CMakeLists.txt              # ESP-IDF project file
 ```
 
-## 🔧 Basic Setup
+## Basic Setup
 
 ### 1. Clone the Tools Repository
 
@@ -83,7 +74,7 @@ jobs:
       run_codeql: true
 ```
 
-## 📚 Workflow Details
+## Workflow Details
 
 ### Build Workflow
 
@@ -110,7 +101,7 @@ jobs:
 
 [→ Full Release Guide](release-workflow.md)
 
-## 🔄 Workflow Combinations
+## Workflow Combinations
 
 ### Full CI Pipeline
 
@@ -130,14 +121,14 @@ jobs:
   security: # Full security audit
 ```
 
-## 📖 Next Steps
+## Next Steps
 
 1. **Choose your workflows** based on your project needs
 2. **Read the individual guides** for detailed configuration
 3. **Customize inputs** to match your project structure
 4. **Test with a simple workflow** before adding complexity
 
-## 🔗 Related Resources
+## Related Resources
 
 - [Main Repository](https://github.com/hardfoc/hf-espidf-ci-tools)
 - [Project Tools Repository](https://github.com/hardfoc/hf-espidf-project-tools)
