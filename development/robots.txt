@@ -1,1 +1,0 @@
-Sitemap: https://hardfoc.github.io/hf-espidf-ci-tools/development/sitemap.xml
