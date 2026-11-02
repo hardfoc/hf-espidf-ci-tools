@@ -1,108 +1,32 @@
-# hf-espidf-ci-tools
+# ESP-IDF CI Tools
 
-Reusable GitHub Actions workflows for ESP-IDF projects. One builds firmware
-across a matrix of ESP-IDF versions, build types and apps. The other
-publishes a GitHub Release with the firmware built for that commit. The
-matrix and the build scripts come from
-[hf-espidf-project-tools](https://github.com/hardfoc/hf-espidf-project-tools).
-C/C++ lint, docs and the CI gate live in
-[hf-general-ci-tools](https://github.com/hardfoc/hf-general-ci-tools).
+Reusable GitHub Actions workflows for HardFOC ESP-IDF projects: build every example app across ESP-IDF versions
+and build types with a size report on pull requests, and attach the tested firmware to a GitHub Release.
 
-[![Workflow Self-CI](https://github.com/hardfoc/hf-espidf-ci-tools/actions/workflows/ci-self.yml/badge.svg)](https://github.com/hardfoc/hf-espidf-ci-tools/actions/workflows/ci-self.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://hardfoc.github.io/hf-espidf-ci-tools)
+[![Workflow self-CI](https://github.com/hardfoc/hf-espidf-ci-tools/actions/workflows/ci-self.yml/badge.svg?branch=main)](https://github.com/hardfoc/hf-espidf-ci-tools/actions/workflows/ci-self.yml)
+[![Docs](https://github.com/hardfoc/hf-espidf-ci-tools/actions/workflows/ci-docs-publish.yml/badge.svg?branch=main)](https://hardfoc.github.io/hf-espidf-ci-tools/)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/hardfoc/hf-espidf-ci-tools)](https://github.com/hardfoc/hf-espidf-ci-tools/releases)
 
-## Architecture
+**Documentation: <https://hardfoc.github.io/hf-espidf-ci-tools/>**
 
-```mermaid
-flowchart LR
-  subgraph callers["Calling repositories (pin @v1)"]
-    drivers["hf-*-driver repos (~21)"]
-    core["hf-core, hf-internal-interface-wrap,<br/>hf-hal-* boards"]
-  end
+<!-- figure: workflow-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/workflow-flow.dark.svg">
+  <img src="docs/diagrams/workflow-flow.svg"
+    alt="Flow diagram: a calling repository runs ru-build, whose generate-matrix, build and size-report jobs
+    read app_config.yml through hf-espidf-project-tools, build every app in the espressif/idf image and
+    upload fw-* artifacts; on a version tag ru-release-with-artifacts attaches those artifacts to a
+    GitHub Release.">
+</picture>
+<!-- /figure -->
 
-  subgraph espidf["hf-espidf-ci-tools"]
-    build["ru-build<br/>matrix → build → size report"]
-    rel["ru-release-with-artifacts"]
-  end
+## In 30 seconds
 
-  tools[("hf-espidf-project-tools<br/>generate_matrix.py, build_app.sh")]
-  hub[("Docker Hub<br/>espressif/idf:&lt;version&gt;")]
-
-  drivers & core -- "esp32-examples-build-ci.yml" --> build
-  drivers & core -- "release.yml (tags)" --> rel
-  build -- "submodule or auto-clone" --> tools
-  build -- "pre-pull with retries" --> hub
-  build -- "fw-* artifacts" --> rel
-  rel -- "create" --> releases[("GitHub Release<br/>with firmware")]
-```
-
-`ru-build` runs in three jobs:
-
-1. **`generate-matrix`.** Finds the project tools, from a submodule, the
-   `project_tools_dir` input, or an auto-clone. It then runs
-   `generate_matrix.py`.
-2. **`build`.** One job per matrix entry:
-   1. frees runner disk space;
-   2. pre-pulls `espressif/idf:<version>` with retries;
-   3. builds with `espressif/esp-idf-ci-action`;
-   4. uploads the build output as `fw-<app>-<idf>-<type>`.
-3. **`size-report`.** On pull requests only, comments a firmware size table
-   and, optionally, enforces a size budget.
-
-`ru-release-with-artifacts` runs on a tag push. It downloads the `fw-*`
-artifacts that the build workflow produced for the same commit, and attaches
-them to a GitHub Release with generated notes.
-
-Each workflow is self-contained. It calls only third-party actions, which are
-pinned to commit SHAs, and nothing of this repository at a moving ref.
-Pinning a caller to `@v1` therefore pins everything it runs.
-
-## Versioning
-
-Pin the moving major tag:
+With the apps listed in `examples/esp32/app_config.yml` and
+[hf-espidf-project-tools](https://github.com/hardfoc/hf-espidf-project-tools) in `examples/esp32/scripts`:
 
 ```yaml
-uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
-```
-
-Releases are semver tags (`v1.0.0`, ...). `v1` always points at the newest
-`v1.x.y`. A removed input, a new required input or a new required permission
-only arrives with a new major. Pull requests here are checked for exactly
-those changes. See [docs/VERSIONING.md](docs/VERSIONING.md) and
-[CHANGELOG.md](CHANGELOG.md).
-
-> After a fix lands here, start a **new** run. "Re-run failed jobs" reuses the
-> reusable-workflow revision that the original run resolved.
-
-## Permissions contract
-
-Each workflow declares minimal `permissions` on every job. A called workflow
-cannot ask for more than its caller grants. If it does, the run fails before
-any job starts (`startup_failure`). Grant **at least** the following. The
-self-CI fails if a workflow's job permissions ever differ from this table.
-
-<!-- permissions-table:start -->
-| Workflow | Caller must grant | Why |
-| --- | --- | --- |
-| [`ru-build.yml`](.github/workflows/ru-build.yml) | `contents: read`, `pull-requests: write` | checkout; firmware size comment on pull requests |
-| [`ru-release-with-artifacts.yml`](.github/workflows/ru-release-with-artifacts.yml) | `contents: write` | create the release and upload the firmware |
-<!-- permissions-table:end -->
-
-## Workflows: callers and inputs
-
-The inputs tables are generated from the workflow files
-(`.github/scripts/gen_readme_inputs.py`), and CI fails if they go stale.
-
-### ru-build
-
-```yaml
-name: ESP32 build
-on:
-  push:
-    branches: [main]
-  pull_request:
-
 jobs:
   build:
     uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
@@ -113,6 +37,45 @@ jobs:
       project_dir: examples/esp32
       project_tools_dir: examples/esp32/scripts
 ```
+
+## What it does
+
+- `ru-build.yml` turns `app_config.yml` into a matrix of apps, ESP-IDF versions and build types, and builds each
+  one in the `espressif/idf` image.
+- Pulls the image up to four times with back-off, so a Docker Hub error does not fail the build.
+- Uploads each build as a `fw-<app>-<idf>-<build type>` artifact and comments a size table on pull requests, with
+  an optional size budget.
+- `ru-release-with-artifacts.yml` attaches the firmware built for the tagged commit to a GitHub Release; nothing is
+  rebuilt.
+- Every action is pinned to a commit SHA; `@v1` never removes an input or asks for a new permission, and the
+  self-CI enforces it.
+
+## Install
+
+Nothing to install: call the workflows from your repository, pinned to the major tag.
+
+```yaml
+uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-build.yml@v1
+uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
+```
+
+## Permissions contract
+
+The self-CI checks this table against every job (`.github/scripts/check_permissions.py`). A caller that grants
+less gets `startup_failure`.
+
+<!-- permissions-table:start -->
+| Workflow | Caller must grant | Why |
+| --- | --- | --- |
+| [`ru-build.yml`](.github/workflows/ru-build.yml) | `contents: read`, `pull-requests: write` | checkout; firmware size comment on pull requests |
+| [`ru-release-with-artifacts.yml`](.github/workflows/ru-release-with-artifacts.yml) | `contents: write` | create the release and upload the firmware |
+<!-- permissions-table:end -->
+
+## Inputs
+
+Generated from the workflow files (`.github/scripts/gen_readme_inputs.py`); CI fails when they go stale.
+
+### ru-build
 
 <!-- inputs:ru-build.yml:start -->
 | Input | Type | Required | Default | Description |
@@ -126,21 +89,6 @@ jobs:
 
 ### ru-release-with-artifacts
 
-```yaml
-name: Release
-on:
-  push:
-    tags: ["v*"]
-
-jobs:
-  release:
-    uses: hardfoc/hf-espidf-ci-tools/.github/workflows/ru-release-with-artifacts.yml@v1
-    permissions:
-      contents: write
-    with:
-      build_workflow: esp32-examples-build-ci.yml
-```
-
 <!-- inputs:ru-release-with-artifacts.yml:start -->
 | Input | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -152,26 +100,23 @@ jobs:
 | `fail_on_no_artifacts` | boolean | no | `false` | Fail if no firmware artifacts found |
 <!-- inputs:ru-release-with-artifacts.yml:end -->
 
-### Composite action: ensure-tools-directory
+## Documentation
 
-[`.github/actions/ensure-tools-directory`](.github/actions/ensure-tools-directory/action.yml)
-resolves the project tools directory, or clones it. `ru-build` inlines the
-same script, so the workflow does not depend on the action at a moving ref.
-Use the action directly only in your own jobs.
-
-> Earlier versions of this README showed a `security.yml` workflow. No such
-> workflow exists in this repository, and
-> [docs/security-workflow.md](docs/security-workflow.md) does not describe
-> anything you can call.
-
-## How this repository tests itself
-
-| Workflow | What it checks |
+| Page | What it covers |
 | --- | --- |
-| [`ci-self.yml`](.github/workflows/ci-self.yml) | Runs actionlint with shellcheck (pinned, any finding fails), and the same shellcheck on composite actions. Fails any `run:` block ending in a bare `cond && cmd`. Checks the permissions contract, the README inputs tables, that the inlined tools step matches the action, and breaking changes against the PR base. Runs unit tests for these checks |
-| `ci-docs-publish.yml`, `ci-docs-linkcheck.yml`, `ci-markdown-lint.yml`, `ci-yaml-lint.yml` | This repository's documentation, through hf-general-ci-tools |
+| [Quickstart](https://hardfoc.github.io/hf-espidf-ci-tools/latest/quickstart/) | The three files a repository needs |
+| [ru-build](https://hardfoc.github.io/hf-espidf-ci-tools/latest/ru-build/) | Jobs, tools lookup, matrix, artifacts, size budget, failure modes |
+| [ru-release-with-artifacts](https://hardfoc.github.io/hf-espidf-ci-tools/latest/ru-release-with-artifacts/) | Releasing the tested firmware |
+| [Permissions contract](https://hardfoc.github.io/hf-espidf-ci-tools/latest/permissions/) | What to grant and why |
+| [Versioning](https://hardfoc.github.io/hf-espidf-ci-tools/latest/versioning/) | `@v1`, what is breaking, cutting a release |
+| [Migrating to v1](https://hardfoc.github.io/hf-espidf-ci-tools/latest/migration/) | Moving a caller from `@main` |
 
-📖 Guides: [Build workflow](docs/build-workflow.md) ·
-[Release workflow](docs/release-workflow.md) ·
-[Example workflows](docs/example-workflows.md) ·
-[Documentation index](docs/index.md)
+## Tests
+
+```bash
+python .github/scripts/test_checks.py && python .github/scripts/check_permissions.py
+```
+
+## License
+
+GPL-3.0; see [LICENSE](LICENSE).

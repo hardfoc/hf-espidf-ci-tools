@@ -3,7 +3,7 @@
 All notable changes to the reusable workflows in this repository are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and releases follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-as described in [docs/VERSIONING.md](docs/VERSIONING.md).
+as described in [docs/versioning.md](docs/versioning.md).
 
 A change that breaks callers pinned to the current major goes under a
 `### Breaking` heading in **Unreleased**, and the next release must then be a
@@ -15,15 +15,16 @@ that heading.
 
 ## [Unreleased]
 
-Everything below becomes **v1.0.0**, the first tagged release. Until callers
-move from `@main` to `@v1`, `@main` stays compatible with them: no input has
-been removed and no workflow needs more permissions than before.
+### Changed
+
+- Documentation moved to the HardFOC MkDocs platform: one page per workflow, inputs tables and the permissions
+  contract generated from the workflow files, published with `ru-mkdocs-publish.yml`. The README follows the
+  HardFOC README standard; its license badge now names the repository's real license (GPL-3.0).
+
+## [1.1.0] - 2026-11-02
 
 ### Added
 
-- `ru-build.yml`: the ESP-IDF Docker image is pulled before the build, with
-  up to 4 attempts (10/30/60 s backoff). A transient Docker Hub error no
-  longer fails the build with exit 125.
 - Self-CI (`ci-self.yml`):
   - pinned actionlint and shellcheck;
   - shellcheck for the composite actions;
@@ -52,3 +53,14 @@ been removed and no workflow needs more permissions than before.
 
 - `ru-build.yml` size report: `` "`size.txt missing`" `` ran a command named
   `size.txt` instead of printing the text.
+
+## [1.0.0] - 2026-11-01
+
+The first tagged release: the workflows as callers used them from `@main`.
+
+### Added
+
+- `ru-build.yml`: the ESP-IDF Docker image is pulled before the build, with
+  up to 4 attempts (10/30/60 s backoff). A transient Docker Hub error no
+  longer fails the build with exit 125.
+- `ru-build.yml` frees runner disk space before the build.
