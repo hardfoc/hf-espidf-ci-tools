@@ -1,0 +1,14 @@
+{
+  "workflow-flow": {
+    "title": "From push to release",
+    "alt": "Flow diagram: a calling repository runs ru-build, whose generate-matrix, build and size-report jobs read app_config.yml through hf-espidf-project-tools, build every app in the espressif/idf image and upload fw-* artifacts; on a version tag ru-release-with-artifacts attaches those artifacts to a GitHub Release.",
+    "description": "From top to bottom. A HardFOC repository calls ru-build from its ESP32 build workflow. ru-build's first job finds hf-espidf-project-tools (a submodule, the project_tools_dir input, or a clone) and turns app_config.yml into a build matrix. The build job runs once per matrix entry inside the espressif/idf Docker image and uploads the build folder as a fw-* artifact. On pull requests the size-report job comments a size table. When the caller pushes a version tag, ru-release-with-artifacts downloads the fw-* artifacts built for that commit and attaches them to a GitHub Release. Job names are read from the workflow files.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/diagrams/figures/workflow-flow.py",
+    "sources": [
+      ".github/workflows/ru-build.yml:jobs",
+      ".github/workflows/ru-release-with-artifacts.yml:jobs"
+    ]
+  }
+}

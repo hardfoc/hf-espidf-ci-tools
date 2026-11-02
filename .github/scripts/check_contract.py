@@ -15,7 +15,7 @@ pinned to the current major version:
 
 Breaking changes are allowed only when CHANGELOG.md's "Unreleased" section
 has a "### Breaking" subsection, which marks the next release as a major
-bump (docs/VERSIONING.md). Without one this script fails and lists them.
+bump (docs/versioning.md). Without one this script fails and lists them.
 
 Usage: check_contract.py --base-ref <git ref> [--workflows .github/workflows] [--changelog CHANGELOG.md]
 """
@@ -145,7 +145,7 @@ def main() -> int:
         print(f"::error::breaking change: {c}")
     print(f"{len(changes)} breaking change(s). Either keep the contract compatible (deprecate instead of "
           f"removing), or record them under '## [Unreleased]' / '### Breaking' in {args.changelog} "
-          "so the next release is a major bump (see docs/VERSIONING.md).")
+          "so the next release is a major bump (see docs/versioning.md).")
     return 1
 
 

@@ -1,47 +1,28 @@
 ---
-name: 📚 Publish Documentation
+# Documentation: strict MkDocs build, figure / generated-region checks, Doxygen under /api/, offline link check,
+# Lighthouse budget and screenshots on pull requests; publish to gh-pages with mike (main -> dev, vX.Y.Z tag ->
+# that version + latest). Inputs: docs/ru-mkdocs-publish.md in hardfoc/hf-general-ci-tools.
+name: 📚 Docs
 
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
-  group: docs-with-doxygen-${{ github.ref }}
-  cancel-in-progress: true
+  group: docs-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  publish-docs:
-    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-docs-publish.yml@main
+  docs:
+    uses: hardfoc/hf-general-ci-tools/.github/workflows/ru-mkdocs-publish.yml@v1
+    permissions:
+      contents: write  # the publish job pushes gh-pages; pull requests never publish
     with:
-      checkout_recursive: false
-      # Jekyll configuration for this repo's docs
-      jekyll_enabled: true
-      jekyll_config: "_config/_config.yml"
-      jekyll_source: "."
-      jekyll_destination: "_site"
-      jekyll_layouts_dir: "docs/_layouts"
-
-      # Link checking
-      run_link_check: true
-      link_check_paths: "**/*.md"
-      verbose: true
-      link_check_config: '_config/lychee.toml'
-
-      # Markdown linting - false for now
-      run_markdown_lint: false
-      markdown_lint_paths: "**/*.md"
-
-      # Spell checking
-      run_spell_check: false
-      spell_check_paths: "**/*.md"
-
-      # Deploy to GitHub Pages
-      deploy_pages: true
+      deploy: true
