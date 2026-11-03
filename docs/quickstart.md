@@ -8,10 +8,17 @@ Add an ESP32 build to a repository in three files: the app list, the tools and a
 | --- | --- |
 | `examples/esp32/CMakeLists.txt` | The ESP-IDF project: `idf.py build` works in this folder |
 | `examples/esp32/app_config.yml` | The apps to build, with the ESP-IDF versions, build types and target |
+| `examples/esp32/sdkconfig.defaults` | Kconfig defaults; HardFOC projects set `CONFIG_FREERTOS_HZ=1000` here |
 | `examples/esp32/scripts/` | [hf-espidf-project-tools](https://github.com/hardfoc/hf-espidf-project-tools) as a submodule (or let the workflow clone it) |
 
 `examples/esp32` is the HardFOC convention and the path the matrix script looks in first; see
 [The matrix](ru-build.md#the-matrix) before you put the project anywhere else.
+
+!!! note "FreeRTOS runs at 1000 Hz"
+    HardFOC ESP-IDF projects run FreeRTOS at 1000 Hz; hf-utils-rtos-wrap timing assumes at least 1 kHz for
+    ms-precision delays. ESP-IDF's default is 100 Hz. The workflow passes no defaults file of its own, so ESP-IDF
+    reads `sdkconfig.defaults` from the project folder, and a committed `sdkconfig` takes precedence over it. Put
+    `CONFIG_FREERTOS_HZ=1000` in whichever of the two the project uses.
 
 <div class="hf-steps" markdown>
 
