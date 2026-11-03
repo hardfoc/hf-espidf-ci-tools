@@ -886,13 +886,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="hf-figure-desc">
 <summary>Figure description and sources</summary>
 <p>From top to bottom. A HardFOC repository calls ru-build from its ESP32 build workflow. ru-build's first job finds hf-espidf-project-tools (a submodule, the project_tools_dir input, or a clone) and turns app_config.yml into a build matrix. The build job runs once per matrix entry inside the espressif/idf Docker image and uploads the build folder as a fw-* artifact. On pull requests the size-report job comments a size table. When the caller pushes a version tag, ru-release-with-artifacts downloads the fw-* artifacts built for that commit and attaches them to a GitHub Release. Job names are read from the workflow files.</p>
-<p>Drawn from: <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/.github/workflows/ru-build.yml"><code>.github/workflows/ru-build.yml</code></a> <code>jobs</code>; <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/.github/workflows/ru-release-with-artifacts.yml"><code>.github/workflows/ru-release-with-artifacts.yml</code></a> <code>jobs</code>; figure module <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/docs/diagrams/figures/workflow-flow.py"><code>docs/diagrams/figures/workflow-flow.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/.github/workflows/ru-build.yml"><code>.github/workflows/ru-build.yml</code></a> <code>jobs</code>; <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/.github/workflows/ru-release-with-artifacts.yml"><code>.github/workflows/ru-release-with-artifacts.yml</code></a> <code>jobs</code>; figure module <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/docs/diagrams/figures/workflow-flow.py"><code>docs/diagrams/figures/workflow-flow.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/docs/diagrams/figures/workflow-flow.py"><code>docs/diagrams/figures/workflow-flow.py</code></a></p>
+<p>Figure module: <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/docs/diagrams/figures/workflow-flow.py"><code>docs/diagrams/figures/workflow-flow.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>jobs</code> in <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/.github/workflows/ru-build.yml"><code>.github/workflows/ru-build.yml</code></a></li>
-<li><code>jobs</code> in <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/.github/workflows/ru-release-with-artifacts.yml"><code>.github/workflows/ru-release-with-artifacts.yml</code></a></li>
+<li><code>jobs</code> in <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/.github/workflows/ru-build.yml"><code>.github/workflows/ru-build.yml</code></a></li>
+<li><code>jobs</code> in <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/.github/workflows/ru-release-with-artifacts.yml"><code>.github/workflows/ru-release-with-artifacts.yml</code></a></li>
 </ul>
 
 

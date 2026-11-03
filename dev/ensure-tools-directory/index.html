@@ -1000,7 +1000,7 @@
 
 <h1 id="ensure-tools-directory">ensure-tools-directory<a class="headerlink" href="#ensure-tools-directory" title="Permanent link">&para;</a></h1>
 <p>Find hf-espidf-project-tools in a checkout, or clone it, from a job of your own.</p>
-<p><strong>File:</strong> <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/d1a56cd65daf25c4e678ecfd5e2f252391d2da0e/.github/actions/ensure-tools-directory/action.yml"><code>.github/actions/ensure-tools-directory/action.yml</code></a></p>
+<p><strong>File:</strong> <a href="https://github.com/hardfoc/hf-espidf-ci-tools/blob/31c25327c00ae4991539f79fd192f61653cc71a4/.github/actions/ensure-tools-directory/action.yml"><code>.github/actions/ensure-tools-directory/action.yml</code></a></p>
 <p><code>ru-build</code> runs the same script inline: a reusable workflow cannot use an action of its own repository at the
 caller's ref, so <code>uses: ...@main</code> inside it would run <code>main</code>'s copy for callers pinned to <code>@v1</code>. The self-CI fails
 when the two copies differ. Use the action only in jobs you write yourself.</p>
